@@ -46,3 +46,7 @@ app.*.map.json
 .fvm/
 
 *.env
+
+# Ignore these for the pipelines
+/ios/Podfile
+/ios/Podfile.lock
