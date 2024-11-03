@@ -1,0 +1,19 @@
+[debug] [2024-11-03T16:54:40.488Z] ----------------------------------------------------------------------
+[debug] [2024-11-03T16:54:40.490Z] Command:       /Users/user/.nvm/versions/node/v18.19.1/bin/node /Users/user/.nvm/versions/node/v18.19.1/bin/firebase login
+[debug] [2024-11-03T16:54:40.491Z] CLI Version:   13.22.0
+[debug] [2024-11-03T16:54:40.491Z] Platform:      darwin
+[debug] [2024-11-03T16:54:40.491Z] Node Version:  v18.19.1
+[debug] [2024-11-03T16:54:40.500Z] Time:          Sun Nov 03 2024 19:54:40 GMT+0300 (East Africa Time)
+[debug] [2024-11-03T16:54:40.500Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-11-03T16:54:40.504Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2024-11-03T16:54:40.652Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[info] Already logged in as olukadeno@gmail.com
+[debug] [2024-11-03T16:54:43.489Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2024-11-03T16:54:43.489Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2024-11-03T16:54:46.250Z] Error: Timed out.
+    at Timeout.<anonymous> (/Users/user/.nvm/versions/node/v18.19.1/lib/node_modules/firebase-tools/lib/utils.js:268:49)
+    at listOnTimeout (node:internal/timers:569:17)
+    at process.processTimers (node:internal/timers:512:7)
+[error] 
+[error] Error: An unexpected error has occurred.

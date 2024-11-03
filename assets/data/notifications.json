@@ -1,0 +1,35 @@
+{
+  "status": 200,
+  "data": {
+    "data": [
+      {
+        "id": 39872,
+        "title": "Publication",
+        "message": "You publications has been approved successfully",
+        "read": false,
+        "created_at": "2024-07-01T12:26:46.000000Z",
+        "updated_at": "2024-07-01T15:07:14.000000Z"
+      },
+      {
+        "id": 38273,
+        "title": "Profile",
+        "message": "Your profile is not fully set up. Please consider updating your profile",
+        "read": false,
+        "created_at": "2024-06-01T12:26:46.000000Z",
+        "updated_at": "2024-06-01T15:07:14.000000Z"
+      },
+      {
+        "id": 12782,
+        "title": "Publication",
+        "message": "Andrew Agaba has published new publication.",
+        "read": true,
+        "created_at": "2024-05-04T12:26:46.000000Z",
+        "updated_at": "2024-05-28T15:07:14.000000Z"
+      }
+    ],
+    "per_page": 20,
+    "prev_page_url": null,
+    "to": 20,
+    "total": 240
+  }
+}

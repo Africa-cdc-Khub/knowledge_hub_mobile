@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <compositeConfiguration>
+          <compositeBuild compositeDefinitionSource="SCRIPT">
+            <builds>
+              <build path="$USER_HOME$/fvm/versions/3.22.2/packages/flutter_tools/gradle" name="gradle">
+                <projects>
+                  <project path="$USER_HOME$/fvm/versions/3.22.2/packages/flutter_tools/gradle" />
+                </projects>
+              </build>
+            </builds>
+          </compositeBuild>
+        </compositeConfiguration>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
+        <option name="modules">
+          <set>
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/device_info_plus-10.1.2/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/file_picker-8.1.2/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_local_notifications-17.2.1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_native_splash-2.4.0/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.22/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+12/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_android-2.2.6/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/permission_handler_android-12.0.7/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/rive_common-0.4.11/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/share_plus-10.0.2/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_android-2.2.3/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite-2.3.3+1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_flutter_pdfviewer-27.1.50/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.3/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/video_player_android-2.5.1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_android-3.16.7/android" />
+            <option value="$USER_HOME$/fvm/versions/3.22.2/packages/flutter_tools/gradle" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+          </set>
+        </option>
+        <option name="resolveExternalAnnotations" value="false" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

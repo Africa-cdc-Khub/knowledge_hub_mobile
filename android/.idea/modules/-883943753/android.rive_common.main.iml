@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="AdditionalModuleElements">
+    <content url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/rive_common-0.4.11/ios" dumb="true">
+      <excludeFolder url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/rive_common-0.4.11/ios/rive-cpp/dev/core_generator/.dart_tool" />
+      <excludeFolder url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/rive_common-0.4.11/ios/rive-cpp/dev/core_generator/.pub" />
+      <excludeFolder url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/rive_common-0.4.11/ios/rive-cpp/dev/core_generator/build" />
+    </content>
+  </component>
+</module>

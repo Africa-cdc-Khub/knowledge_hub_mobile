@@ -1,0 +1,4 @@
+enum SearchType{
+  forum,
+  publication
+}

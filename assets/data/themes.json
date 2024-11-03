@@ -1,0 +1,69 @@
+{
+  "status": 200,
+  "data": {
+    "current_page": 1,
+    "data": [
+      {
+        "id": 1,
+        "description": "Health Workforce",
+        "icon": "fa-users",
+        "created_at": null,
+        "updated_at": "2024-06-11T09:59:35.000000Z",
+        "display_index": 1
+      },
+      {
+        "id": 2,
+        "description": "Health Risk Environment",
+        "icon": "fa-seedling",
+        "created_at": null,
+        "updated_at": "2024-06-11T09:59:35.000000Z",
+        "display_index": 1
+      },
+      {
+        "id": 3,
+        "description": "Health Systems",
+        "icon": "fa-suitcase-medical",
+        "created_at": null,
+        "updated_at": "2024-06-11T09:59:35.000000Z",
+        "display_index": 1
+      },
+      {
+        "id": 4,
+        "description": "Response",
+        "icon": "fa-ambulance",
+        "created_at": null,
+        "updated_at": "2024-06-11T09:59:35.000000Z",
+        "display_index": 1
+      },
+
+      {
+        "id": 5,
+        "description": "Detection",
+        "icon": "fa-microscope",
+        "created_at": null,
+        "updated_at": "2024-06-11T09:59:35.000000Z",
+        "display_index": 1
+      },
+      {
+        "id": 6,
+        "description": "Prevention",
+        "icon": "fa-ban",
+        "created_at": null,
+        "updated_at": "2024-06-11T09:59:35.000000Z",
+        "display_index": 1
+      },
+      {
+        "id": 7,
+        "description": "Global Health Security Capacities",
+        "icon": "fa-shield-halved",
+        "created_at": null,
+        "updated_at": "2024-06-11T09:59:35.000000Z",
+        "display_index": 1
+      }
+    ],
+    "per_page": 20,
+    "prev_page_url": null,
+    "to": 20,
+    "total": 240
+  }
+}

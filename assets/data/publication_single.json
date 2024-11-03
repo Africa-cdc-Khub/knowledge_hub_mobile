@@ -1,0 +1,126 @@
+{
+  "status": 200,
+  "data": {
+    "id": 489,
+    "author_id": 2,
+    "sub_thematic_area_id": 4,
+    "publication": "https://www.youtube.com/embed/XTpLbBJTOM4",
+    "title": "Managing information services at health level",
+    "description": "Managing information services at health level",
+    "publication_catgory_id": 18,
+    "geographical_coverage_id": 1,
+    "cover": "cover.jpg",
+    "is_active": "Active",
+    "visits": 56,
+    "created_at": "2023-04-02T09:54:17.000000Z",
+    "updated_at": "2024-06-29T15:26:11.000000Z",
+    "is_featured": 0,
+    "is_video": 1,
+    "is_version": 1,
+    "version_no": "",
+    "parent_id": 488,
+    "file_type_id": 4,
+    "citation_link": null,
+    "citation_authors": null,
+    "user_id": null,
+    "is_approved": 1,
+    "is_rejected": 0,
+    "associated_authors": null,
+    "theme": {
+      "id": 2,
+      "description": "Prevention",
+      "icon": "fa-ban",
+      "created_at": "2022-10-04T08:58:34.000000Z",
+      "updated_at": "2024-06-11T10:10:27.000000Z",
+      "display_index": 1
+    },
+    "label": "Managing information services at health level",
+    "value": "Managing information services at health level",
+    "is_favourite": false,
+    "approved_comments": [
+      {
+        "id": 1,
+        "user_id": 11,
+        "publication_id": 489,
+        "comment": "This resources was very useful",
+        "created_at": "2022-11-24 00:26:30",
+        "status": "approved"
+      },
+      {
+        "id": 2,
+        "user_id": 11,
+        "publication_id": 489,
+        "comment": "Simple comment",
+        "created_at": "2022-11-27 18:58:21",
+        "status": "approved"
+      },
+      {
+        "id": 5,
+        "user_id": 11,
+        "publication_id": 489,
+        "comment": "Please try this",
+        "created_at": "2022-11-27 19:51:14",
+        "status": "approved"
+      }
+    ],
+    "pending_comments": [],
+    "has_attachments": false,
+    "tag_ids": [],
+    "file_type": {
+      "id": 4,
+      "name": "URL Link",
+      "icon": "fa-file",
+      "is_downloadable": 1
+    },
+    "attachments": [],
+    "author": {
+      "id": 2,
+      "name": "Zimbabwe",
+      "icon": "fa fa-archive",
+      "is_organsiation": "Yes",
+      "address": "",
+      "telephone": "",
+      "email": "",
+      "created_at": "-000001-11-30T00:00:00.000000Z",
+      "updated_at": "-000001-11-30T00:00:00.000000Z",
+      "logo": "author.png"
+    },
+    "sub_theme": {
+      "id": 4,
+      "description": "One Health  ",
+      "icon": "008-pear-enema.png",
+      "created_at": "2022-10-04T09:59:18.000000Z",
+      "updated_at": "2022-10-04T09:59:18.000000Z",
+      "thematic_area_id": 2
+    },
+    "comments": [
+      {
+        "id": 1,
+        "user_id": 11,
+        "publication_id": 489,
+        "comment": "This resources was very useful",
+        "created_at": "2022-11-24 00:26:30",
+        "status": "approved"
+      },
+      {
+        "id": 2,
+        "user_id": 11,
+        "publication_id": 489,
+        "comment": "Simple comment",
+        "created_at": "2022-11-27 18:58:21",
+        "status": "approved"
+      },
+      {
+        "id": 5,
+        "user_id": 11,
+        "publication_id": 489,
+        "comment": "Please try this",
+        "created_at": "2022-11-27 19:51:14",
+        "status": "approved"
+      }
+    ],
+    "parent": null,
+    "summaries": [],
+    "versioning": []
+  }
+}
