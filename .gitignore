@@ -49,3 +49,4 @@ app.*.map.json
 
 # Ignore these for the pipelines
 /ios/Podfile.lock
+/lib/gen
