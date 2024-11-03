@@ -15,6 +15,10 @@ workflows:
         JAVA_HOM: "/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
       flutter: stable
     scripts:
+      - name: Create .env file
+        script: |
+          echo "DEV_BASE_URL=${DEV_BASE_URL}" >> .env
+          echo "PROD_BASE_URL=${PROD_BASE_URL}" >> .env
       - name: Setup local.properties
         script: |
           echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
@@ -59,6 +63,10 @@ workflows:
       vars:
         APP_STORE_APPLE_ID: 6737743493
     scripts:
+      - name: Create .env file
+        script: |
+          echo "DEV_BASE_URL=${DEV_BASE_URL}" >> .env
+          echo "PROD_BASE_URL=${PROD_BASE_URL}" >> .env
       - name: Set up code signing settings on Xcode project
         script: |
           xcode-project use-profiles
