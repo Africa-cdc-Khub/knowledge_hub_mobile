@@ -1,0 +1,90 @@
+workflows:
+  android-workflow:
+    name: Android Workflow
+    instance_type: mac_mini_m1
+    max_build_duration: 120
+    environment:
+      java: 17
+      android_signing:
+        - upload
+      groups:
+        - google_credentials
+      vars:
+        PACKAGE_NAME: "com.africacdc.knowhub"
+        GOOGLE_PLAY_TRACK: "alpha"
+        JAVA_HOM: "/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
+      flutter: stable
+    scripts:
+      - name: Setup local.properties
+        script: |
+          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+      - name: Build APK with Flutter
+        script: |
+          BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME" --tracks="$GOOGLE_PLAY_TRACK") + 1))      
+          flutter build apk --release \
+            --build-name=1.0.$BUILD_NUMBER \
+            --build-number=$BUILD_NUMBER
+    artifacts:
+      - build/**/outputs/**/*.apk
+      - build/**/outputs/**/mapping.txt
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - paulobunga256@gmail.com
+          - agabaandre@gmail.com
+        notify:
+          success: true
+          failure: false
+      google_play: 
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+        submit_as_draft: false
+
+  ios-workflow:
+    name: iOS Workflow
+    max_build_duration: 120
+    instance_type: mac_mini_m1
+    integrations:
+      app_store_connect: Codemagic - App Manager
+    environment:
+      flutter: "stable"
+      xcode: "latest"
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.africacdc.knowhub
+      vars:
+        APP_STORE_APPLE_ID: 6737743493
+    scripts:
+      - name: Set up code signing settings on Xcode project
+        script: |
+          xcode-project use-profiles
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+      - name: Flutter build ipa
+        script: |
+          latest_build_number=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID")
+          build_number=$((latest_build_number + 1))
+          flutter build ipa --release \
+            --build-name=1.0.$build_number \
+            --build-number=$build_number \
+            --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - paulobunga256@gmail.com
+          - agabaandre@gmail.com
+        notify:
+          success: true # To not receive a notification when a build succeeds
+          failure: false # To not receive a notification when a build fails
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
