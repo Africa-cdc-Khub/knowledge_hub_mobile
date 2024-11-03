@@ -55,16 +55,17 @@ class DefaultFirebaseOptions {
     messagingSenderId: '800355033239',
     projectId: 'africa-cdc-2c237',
     databaseURL: 'https://africa-cdc-2c237-default-rtdb.firebaseio.com',
-    storageBucket: 'africa-cdc-2c237.appspot.com',
+    storageBucket: 'africa-cdc-2c237.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAlbBsV6qzRhQ3WY2IMqTR0MeU6o1SpMd8',
-    appId: '1:800355033239:ios:ab4d84a3c54bb91edac9d2',
+    appId: '1:800355033239:ios:ee67a67e7f27bd64dac9d2',
     messagingSenderId: '800355033239',
     projectId: 'africa-cdc-2c237',
     databaseURL: 'https://africa-cdc-2c237-default-rtdb.firebaseio.com',
-    storageBucket: 'africa-cdc-2c237.appspot.com',
+    storageBucket: 'africa-cdc-2c237.firebasestorage.app',
     iosBundleId: 'com.africacdc.knowhub',
   );
+
 }
