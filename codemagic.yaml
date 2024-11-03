@@ -22,6 +22,9 @@ workflows:
       - name: Setup local.properties
         script: |
           echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Install FlutterFire CLI
+        script: |
+          dart pub global activate flutterfire_cli
       - name: Get Flutter packages
         script: |
           flutter packages pub get
