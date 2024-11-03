@@ -79,6 +79,9 @@ workflows:
       - name: Get Flutter packages
         script: |
           flutter packages pub get
+      - name: Generate localization files
+        script: |
+          flutter gen-l10n
       - name: Flutter build ipa
         script: |
           latest_build_number=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID")
