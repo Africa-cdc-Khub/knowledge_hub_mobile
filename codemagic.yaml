@@ -73,6 +73,9 @@ workflows:
       - name: Set up code signing settings on Xcode project
         script: |
           xcode-project use-profiles
+      - name: Upgrade dependencies
+        script: |
+          flutter pub upgrade
       - name: Get Flutter packages
         script: |
           flutter packages pub get
