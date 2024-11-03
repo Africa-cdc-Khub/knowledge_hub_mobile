@@ -82,6 +82,9 @@ workflows:
       - name: Upgrade dependencies
         script: |
           flutter pub upgrade
+      - name: Check Flutter localization files
+        script: |
+          ls -l lib/l10n # Check if localization files are generated correctly
       - name: Flutter build ipa
         script: |
           latest_build_number=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID")
