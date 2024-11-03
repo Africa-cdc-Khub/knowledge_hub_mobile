@@ -52,59 +52,58 @@ workflows:
         submit_as_draft: false
 
   ios-workflow:
-  name: iOS Workflow
-  max_build_duration: 120
-  instance_type: mac_mini_m1
-  integrations:
-    app_store_connect: Codemagic - App Manager
-  environment:
-    flutter: "stable"
-    xcode: "latest"
-    ios_signing:
-      distribution_type: app_store
-      bundle_identifier: com.africacdc.knowhub
-    vars:
-      APP_STORE_APPLE_ID: 6737743493
-  scripts:
-    - name: Create .env file
-      script: |
-        echo "DEV_BASE_URL=${DEV_BASE_URL}" >> .env
-        echo "PROD_BASE_URL=${PROD_BASE_URL}" >> .env
-    - name: Set up code signing settings on Xcode project
-      script: |
-        xcode-project use-profiles
-    - name: Get Flutter packages
-      script: |
-        flutter pub get
-    - name: Generate localization files
-      script: |
-        flutter gen-l10n
-    - name: Upgrade dependencies
-      script: |
-        flutter pub upgrade
-    - name: Check Flutter localization files
-      script: |
-        ls -l lib/l10n # Check if localization files are generated correctly
-    - name: Flutter build ipa
-      script: |
-        latest_build_number=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID")
-        build_number=$((latest_build_number + 1))
-        flutter build ipa --release \
-          --build-name=1.0.$build_number \
-          --build-number=$build_number
-  artifacts:
-    - build/ios/ipa/*.ipa
-    - /tmp/xcodebuild_logs/*.log
-    - flutter_drive.log
-  publishing:
-    email:
-      recipients:
-        - paulobunga256@gmail.com
-        - agabaandre@gmail.com
-      notify:
-        success: true
-        failure: false
-    app_store_connect:
-      auth: integration
-      submit_to_testflight: true
-
+    name: iOS Workflow
+    max_build_duration: 120
+    instance_type: mac_mini_m1
+    integrations:
+      app_store_connect: Codemagic - App Manager
+    environment:
+      flutter: "stable"
+      xcode: "latest"
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.africacdc.knowhub
+      vars:
+        APP_STORE_APPLE_ID: 6737743493
+    scripts:
+      - name: Create .env file
+        script: |
+          echo "DEV_BASE_URL=${DEV_BASE_URL}" >> .env
+          echo "PROD_BASE_URL=${PROD_BASE_URL}" >> .env
+      - name: Set up code signing settings on Xcode project
+        script: |
+          xcode-project use-profiles
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+      - name: Generate localization files
+        script: |
+          flutter gen-l10n
+      - name: Upgrade dependencies
+        script: |
+          flutter pub upgrade
+      - name: Check Flutter localization files
+        script: |
+          ls -l lib/l10n # Check if localization files are generated correctly
+      - name: Flutter build ipa
+        script: |
+          latest_build_number=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID")
+          build_number=$((latest_build_number + 1))
+          flutter build ipa --release \
+            --build-name=1.0.$build_number \
+            --build-number=$build_number
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - paulobunga256@gmail.com
+          - agabaandre@gmail.com
+        notify:
+          success: true
+          failure: false
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
