@@ -1,6 +1,38 @@
-# KHub Mobile
+# Africa CDC Knowledge Management Mobile App
 
-KHub Mobile is a Flutter-based mobile application for [brief description of the app's purpose].
+The **Africa CDC Knowledge Management Mobile App** is a Flutter-based application developed to facilitate knowledge sharing, collaboration, and public health management across Africa. This app empowers health professionals, researchers, and policymakers by providing accessible resources and interactive features for real-time knowledge exchange.
+
+## Key Features
+- **Knowledge Publishing**: Access and publish essential public health documents, research, and guidelines to stay informed on the latest health developments.
+- **Discussion Forums**: Connect with public health experts to exchange ideas and collaborate on critical issues such as outbreak response and policy formulation.
+- **AI Document Comparison**: Leverage AI-powered tools to compare documents, track changes, and ensure accuracy in public health documentation.
+- **Social Document Sharing**: Easily share documents with colleagues and stakeholders on social platforms, promoting widespread knowledge dissemination.
+
+## Technology Stack
+- **Frontend**: Flutter (cross-platform support for iOS and Android)
+## Getting Started
+
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
+- **Backend**: Laravel (PHP framework)
+- **Database**: MySQL
+- **Search**: Elasticsearch for fast, accurate information retrieval
+
+## Installation
+For developers who want to set up the project locally for development or customization, please follow these steps:
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/africacdc/knowledge-management-mobile-app.git
+
 
 ## Table of Contents
 

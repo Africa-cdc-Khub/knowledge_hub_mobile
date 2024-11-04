@@ -73,15 +73,24 @@ workflows:
       - name: Set up code signing settings on Xcode project
         script: |
           xcode-project use-profiles
+      - name: Set up flutterfire
+        script: |
+          # Install flutterfire CLI
+          echo "Installing flutterfire CLI..."
+          dart pub global activate flutterfire_cli
+
+          # Ensure flutterfire is available in the PATH
+          export PATH="$PATH":"$HOME/.pub-cache/bin"
+
       - name: Get Flutter packages
         script: |
           flutter pub get
       - name: Generate localization files
         script: |
           flutter gen-l10n
-      - name: Upgrade dependencies
+      - name: Pod install
         script: |
-          flutter pub upgrade
+          cd ios && pod install
       - name: Check Flutter localization files
         script: |
           ls -l lib/l10n # Check if localization files are generated correctly
@@ -91,7 +100,8 @@ workflows:
           build_number=$((latest_build_number + 1))
           flutter build ipa --release \
             --build-name=1.0.$build_number \
-            --build-number=$build_number
+            --build-number=$build_number \
+            --export-options-plist=/Users/builder/export_options.plist 
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
