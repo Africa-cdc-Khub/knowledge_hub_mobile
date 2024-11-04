@@ -45,7 +45,7 @@ dependencies:
   another_flushbar: ^1.12.30
   sqflite: ^2.3.3+1
   http_parser: ^4.0.2
-  syncfusion_flutter_pdfviewer: ^26.2.14
+  syncfusion_flutter_pdfviewer: ^26.2.10
   path_provider: ^2.1.4
   webview_flutter: ^4.8.0
   rxdart: ^0.28.0
