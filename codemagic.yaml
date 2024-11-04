@@ -88,9 +88,9 @@ workflows:
       - name: Generate localization files
         script: |
           flutter gen-l10n
-      - name: Upgrade dependencies
+      - name: Pod install
         script: |
-          flutter pub upgrade
+          cd ios && pod install
       - name: Check Flutter localization files
         script: |
           ls -l lib/l10n # Check if localization files are generated correctly
