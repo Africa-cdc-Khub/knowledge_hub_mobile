@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -66,6 +63,17 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://africa-cdc-2c237-default-rtdb.firebaseio.com',
     storageBucket: 'africa-cdc-2c237.firebasestorage.app',
     iosBundleId: 'com.africacdc.knowhub',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyA5BH-mFB8dRULwfLNVpBB0bAeghavqrCU',
+    appId: '1:800355033239:web:8c1f33301a38d155dac9d2',
+    messagingSenderId: '800355033239',
+    projectId: 'africa-cdc-2c237',
+    authDomain: 'africa-cdc-2c237.firebaseapp.com',
+    databaseURL: 'https://africa-cdc-2c237-default-rtdb.firebaseio.com',
+    storageBucket: 'africa-cdc-2c237.firebasestorage.app',
+    measurementId: 'G-W0DFNL31L9',
   );
 
 }
