@@ -73,6 +73,15 @@ workflows:
       - name: Set up code signing settings on Xcode project
         script: |
           xcode-project use-profiles
+      - name: Set up flutterfire
+        script: |
+          # Install flutterfire CLI
+          echo "Installing flutterfire CLI..."
+          dart pub global activate flutterfire_cli
+
+          # Ensure flutterfire is available in the PATH
+          export PATH="$PATH":"$HOME/.pub-cache/bin"
+
       - name: Get Flutter packages
         script: |
           flutter pub get
