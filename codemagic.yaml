@@ -83,8 +83,8 @@ workflows:
           export PATH="$PATH":"$HOME/.pub-cache/bin"
       - name: Delete existing app icons
         script: |
-          # Remove iOS icons
-          rm -rf ios/Runner/Assets.xcassets/AppIcon.appiconset
+          # Remove all files inside iOS AppIcon.appiconset directory, but keep the folder
+          find ios/Runner/Assets.xcassets/AppIcon.appiconset -type f -delete
       - name: Get Flutter packages
         script: |
           flutter pub get
