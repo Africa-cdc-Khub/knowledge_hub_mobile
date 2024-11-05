@@ -81,10 +81,14 @@ workflows:
 
           # Ensure flutterfire is available in the PATH
           export PATH="$PATH":"$HOME/.pub-cache/bin"
-
+      - name: Delete existing app icons
+        script: |
+          # Remove iOS icons
+          rm -rf ios/Runner/Assets.xcassets/AppIcon.appiconset
       - name: Get Flutter packages
         script: |
           flutter pub get
+          flutter pub run flutter_launcher_icons
       - name: Generate localization files
         script: |
           flutter gen-l10n
