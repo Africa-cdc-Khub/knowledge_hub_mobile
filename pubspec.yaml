@@ -79,11 +79,9 @@ flutter:
   generate: true  # This enables the generation of localizations
 
   assets:
-    - assets/images/africa_cdc.png
+    - assets/africa_cdc.jpg
     - assets/images/default_user.jpg
     - assets/images/placeholder.jpg
-    - assets/splash_logo.png
-    - assets/splash_logo_android.png
     - assets/data/publications.json
     - assets/data/recent_publications.json
     - assets/data/themes.json
@@ -105,8 +103,8 @@ flutter:
         - asset: assets/fonts/Ubuntu-RegularItalic.ttf
 
 flutter_native_splash:
-  color: "#fdfdfd"
-  image: assets/splash_logo.png
+  color: "#ffffff"
+  image: assets/africa_cdc.jpg
   android: true
   ios: true
   android_gravity: center

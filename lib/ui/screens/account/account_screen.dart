@@ -44,6 +44,7 @@ class _AccountScreenState extends State<AccountScreen> {
         surfaceTintColor: Colors.white,
         shadowColor: MainTheme.appColors.neutralBg,
         elevation: 1,
+        scrolledUnderElevation: 0,
         centerTitle: true,
         title: Text(
           context.localized.settings,

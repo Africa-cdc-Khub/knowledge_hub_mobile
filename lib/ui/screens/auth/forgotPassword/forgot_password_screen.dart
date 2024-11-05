@@ -60,7 +60,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       children: [
                         ySpacer(60),
                         Image.asset(
-                          'assets/images/africa_cdc.png',
+                          'assets/africa_cdc.jpg',
                           width: 200.0,
                           height: 90.0,
                         ),

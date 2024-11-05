@@ -82,6 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(context),
+      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           final authViewModel =
@@ -192,6 +193,9 @@ class _HomeScreenState extends State<HomeScreen> {
     const logoHeight = 50.0;
 
     return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      scrolledUnderElevation: 0,
       title: Consumer<AuthViewModel>(builder: (context, provider, child) {
         return provider.state.currentUser?.settings != null
             ? Image.network(
@@ -204,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (loadingProgress == null) {
                     return child;
                   } else {
-                    return Image.asset('assets/images/africa_cdc.png',
+                    return Image.asset('assets/africa_cdc.jpg',
                         height: logoHeight,
                         width: logoWidth,
                         fit: BoxFit.cover);
@@ -213,12 +217,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 errorBuilder: (BuildContext context, Object exception,
                     StackTrace? stackTrace) {
                   // Display a placeholder image when the remote image fails to load
-                  return Image.asset('assets/images/africa_cdc.png',
+                  return Image.asset('assets/africa_cdc.jpg',
                       height: logoHeight, width: logoWidth, fit: BoxFit.cover);
                 },
               )
             : Image.asset(
-                'assets/images/africa_cdc.png',
+                'assets/africa_cdc.jpg',
                 width: logoWidth,
                 height: logoHeight,
                 fit: BoxFit.cover,

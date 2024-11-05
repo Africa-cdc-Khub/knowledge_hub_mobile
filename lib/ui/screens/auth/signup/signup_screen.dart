@@ -80,7 +80,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: [
                     ySpacer(10),
                     Image.asset(
-                      'assets/images/africa_cdc.png',
+                      'assets/africa_cdc.jpg',
                       width: 200.0,
                       height: 90.0,
                     ),

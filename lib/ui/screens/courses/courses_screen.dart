@@ -56,6 +56,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
           surfaceTintColor: Colors.white,
           shadowColor: MainTheme.appColors.neutralBg,
           elevation: 1,
+          scrolledUnderElevation: 0,
           centerTitle: true,
           title: appBarText(context, context.localized.courses),
         ),

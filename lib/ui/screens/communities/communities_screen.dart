@@ -53,6 +53,8 @@ class _CommunitiesScreenState extends State<CommunitiesScreen> {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
+          elevation: 0,
+          scrolledUnderElevation: 0,
           title: appBarText(context, context.localized.communities)),
       body: Container(
         padding: const EdgeInsets.all(0.0),

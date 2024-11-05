@@ -55,7 +55,11 @@ class _ForumsScreenState extends State<ForumsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: appBarText(context, "Forums")),
+      appBar: AppBar(
+          centerTitle: true,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          title: appBarText(context, "Forums")),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           final authViewModel =
