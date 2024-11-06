@@ -24,7 +24,7 @@ final List<String> initialScript = [
   '''
   CREATE TABLE ${AppDatabase.communityTable}(
     id INTEGER PRIMARY KEY NOT NULL,
-    communityName TEXT,
+    name TEXT,
     description TEXT,
     isActive INTEGER
   );
@@ -41,7 +41,8 @@ final List<String> initialScript = [
   '''
    CREATE TABLE ${AppDatabase.preferenceTable}(
     id INTEGER PRIMARY KEY NOT NULL,
-    name TEXT
+    name TEXT,
+    icon TEXT
   );
   '''
 ];
@@ -57,7 +58,9 @@ final List<String> migrations = [
     color TEXT,
     regionId INTEGER,
     longitude REAL,
-    latitude REAL
+    latitude REAL,
+    isAppSupported INTEGER,
+    baseUrl TEXT
   );
   ''',
   '''
@@ -122,12 +125,9 @@ final List<String> migrations = [
     linksActiveColor TEXT,
     spotlightBanner TEXT,
     bannerText TEXT,
-    slogan TEXT
+    slogan TEXT,
+    userId INTEGER
   );
-  ''',
-  '''
-  ALTER TABLE ${AppDatabase.userSettingsTable}
-  ADD COLUMN userId INTEGER;
   ''',
   '''
   CREATE TABLE ${AppDatabase.resourceCategoryTable}(
@@ -144,39 +144,18 @@ final List<String> migrations = [
   );
   ''',
   '''
-  ALTER TABLE ${AppDatabase.communityTable} RENAME COLUMN communityName TO name;
-  ''',
-  '''
-  ALTER TABLE ${AppDatabase.countryTable} 
-  ADD COLUMN isAppSupported INTEGER;
-  ''',
-  '''
-  ALTER TABLE ${AppDatabase.countryTable} 
-  ADD COLUMN baseUrl TEXT;
-  ''',
-  '''
   CREATE TABLE ${AppDatabase.userPreferenceTable}(
     id INTEGER PRIMARY KEY NOT NULL,
     userId INTEGER,
-    preferenceId INTEGER
+    description INTEGER,
+    icon TEXT
   );
-  ''',
   '''
-  ALTER TABLE ${AppDatabase.userPreferenceTable}
-  RENAME COLUMN preferenceId TO description;
-  ''',
-  '''
-  ALTER TABLE ${AppDatabase.userPreferenceTable}
-  ADD COLUMN icon TEXT;
-  ''',
-  '''
-  ALTER TABLE ${AppDatabase.preferenceTable}
-  ADD COLUMN icon TEXT;
-  ''',
 ];
 
 class AppDatabase {
-  static const String _appName = kReleaseMode ? 'khub.db' : 'khub_dev2.db';
+  static const String _appName =
+      kReleaseMode ? 'khubmobile.db' : 'khub_dev2.db';
   static const String fileTypeTable = 'file_type_table';
   static const String jobTable = 'job_table';
   static const String communityTable = 'community_table';

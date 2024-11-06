@@ -68,8 +68,8 @@ workflows:
     scripts:
       - name: Create .env file
         script: |
-          echo "DEV_BASE_URL=${DEV_BASE_URL}" >> .env
-          echo "PROD_BASE_URL=${PROD_BASE_URL}" >> .env
+          echo "DEV_BASE_URL=https://khub.africacdc.org/demo" >> .env
+          echo "PROD_BASE_URL=https://khub.africacdc.org" >> .env
       - name: Set up code signing settings on Xcode project
         script: |
           xcode-project use-profiles
