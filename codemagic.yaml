@@ -101,7 +101,7 @@ workflows:
       - name: Flutter build ipa
         script: |
           latest_build_number=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID")
-          build_number=$((latest_build_number + 2))
+          build_number=$((latest_build_number + 1))
           flutter build ipa --release \
             --build-name=1.0.$build_number \
             --build-number=$build_number \
