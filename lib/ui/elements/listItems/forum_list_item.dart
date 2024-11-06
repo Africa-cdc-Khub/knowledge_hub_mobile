@@ -88,7 +88,15 @@ class ForumListItem extends StatelessWidget {
                 ),
                 ySpacer(8),
                 _coverPhoto(context),
-                ySpacer(4),
+                Html(data: model.title, style: {
+                  'body': Style(
+                      fontWeight: FontWeight.w500,
+                      fontSize: FontSize(14),
+                      maxLines: 2,
+                      textOverflow: TextOverflow.ellipsis,
+                      padding: HtmlPaddings.zero)
+                }),
+                // ySpacer(4),
                 Html(
                   data: Helpers.truncateHtmlText(model.description, 5),
                   style: {
