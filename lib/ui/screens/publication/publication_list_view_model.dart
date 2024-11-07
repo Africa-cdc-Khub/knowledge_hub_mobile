@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:khub_mobile/api/config/config.dart';
 import 'package:khub_mobile/api/models/data_state.dart';
+import 'package:khub_mobile/repository/connection_repository.dart';
 import 'package:khub_mobile/repository/publication_repository.dart';
 import 'package:khub_mobile/models/publication_model.dart';
 import 'package:khub_mobile/ui/providers/safe_notifier.dart';
@@ -12,20 +13,34 @@ class PublicationListState {
   int _totalPages = 1;
   bool _isEndOfPage = false;
   List<PublicationModel> _publications = [];
+  int _errorType = 2;
 
   bool get loading => _loading;
   String get errorMessage => _errorMessage;
   int get currentPage => _currentPage;
   int get totalPages => _totalPages;
   List<PublicationModel> get publications => _publications;
+  int get errorType => _errorType;
 }
 
 class PublicationListViewModel extends ChangeNotifier with SafeNotifier {
   final PublicationRepository publicationRepository;
+  final ConnectionRepository connectionRepository;
   PublicationListState state = PublicationListState();
   PublicationListState get getState => state;
 
-  PublicationListViewModel(this.publicationRepository);
+  PublicationListViewModel(
+      this.publicationRepository, this.connectionRepository);
+
+  Future<bool> _checkInternetConnection() async {
+    final isConnected = await connectionRepository.checkInternetStatus();
+    state._errorMessage = isConnected ? '' : 'No internet connection';
+    if (!isConnected) {
+      state._errorType = 1;
+      safeNotifyListeners();
+    }
+    return isConnected;
+  }
 
   Future<void> fetchPublications(
       {int page = Config.startPage,
@@ -39,6 +54,11 @@ class PublicationListViewModel extends ChangeNotifier with SafeNotifier {
     safeNotifyListeners();
 
     try {
+      final isConnected = await _checkInternetConnection();
+      if (!isConnected) {
+        return;
+      }
+
       final result = await publicationRepository.fetchPublications(
           page: page,
           isFeatured: isFeatured,
@@ -71,6 +91,11 @@ class PublicationListViewModel extends ChangeNotifier with SafeNotifier {
       {bool? isFeatured, bool? orderByVisits, int? categoryId}) async {
     if (state._currentPage < state._totalPages && !state._isEndOfPage) {
       try {
+        final isConnected = await _checkInternetConnection();
+        if (!isConnected) {
+          return;
+        }
+
         final result = await publicationRepository.fetchPublications(
             page: ++state._currentPage,
             isFeatured: isFeatured,

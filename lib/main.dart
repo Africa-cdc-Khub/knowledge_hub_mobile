@@ -108,6 +108,101 @@ Future<void> setupFlutterNotifications() async {
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin>()
+      ?.requestPermissions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+
+  const initializationSettingsAndroid =
+      AndroidInitializationSettings('@drawable/ic_notification');
+  const initializationSettingsIOS = DarwinInitializationSettings(
+    requestAlertPermission: true,
+    requestBadgePermission: true,
+    requestSoundPermission: true,
+  );
+  const initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+  );
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+}
+
+Future<void> _initializeFirebaseMessaging() async {
+  try {
+    await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+    // For apple platforms, ensure the APNS token is available before making any FCM plugin API calls
+    final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+    if (apnsToken != null) {
+      // APNS token is available, make FCM plugin API requests...
+      LOGGER.d('APNS: $apnsToken');
+    }
+
+    await FirebaseMessaging.instance.setAutoInitEnabled(true);
+
+    // Register app to general topic
+    try {
+      await FirebaseMessaging.instance.subscribeToTopic('GENERAL');
+    } catch (e) {
+      FirebaseCrashlytics.instance.recordError({
+        'exception': e,
+        'context': context,
+        'information': 'Error subscribing to topic',
+      }, null);
+      LOGGER.e('Error subscribing to topic: $e');
+    }
+
+    // Get the token
+    try {
+      String? fcmToken = await FirebaseMessaging.instance.getToken();
+      LOGGER.d('Initial FCM Token: $fcmToken');
+      await getIt<PreferencesDatasource>()
+          .saveString(PreferencesDatasource.fcmTokenKey, fcmToken ?? '');
+    } catch (e) {
+      FirebaseCrashlytics.instance.recordError({
+        'exception': e,
+        'context': context,
+        'information': 'Error getting FCM token',
+      }, null);
+
+      LOGGER.e('Error getting FCM token: $e');
+    }
+
+    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
+      LOGGER.d('FCM Token refreshed: $fcmToken');
+      await getIt<PreferencesDatasource>()
+          .saveString(PreferencesDatasource.fcmTokenKey, fcmToken);
+    });
+
+    // Set up foreground message handler
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // LOGGER.d('A new message data: ${jsonEncode(message)}');
+
+      if (message.notification != null) {
+        // LOGGER.d('Message also contained a notification: ${jsonEncode(message.notification)}');
+      }
+      showFlutterNotification(message);
+    });
+  } catch (e) {
+    LOGGER.e('Firebase Messaging initialization failed: $e');
+    // Continue even if Firebase Messaging fails
+  }
 }
 
 void main() async {
@@ -117,92 +212,23 @@ void main() async {
 
   await di.init();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  await setupFlutterNotifications();
-
-  // Pass all uncaught "fatal" errors from the framework to Crashlytics
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-
   // Initialize LocaleProvider and wait for language to load
   LocaleProvider localeProvider = LocaleProvider();
   await localeProvider.getCachedLanguage();
 
-  // Request permission for notifications
-  await FirebaseMessaging.instance.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-
-  // Set up background message handler
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  // For apple platforms, ensure the APNS token is available before making any FCM plugin API calls
-  final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-  if (apnsToken != null) {
-    // APNS token is available, make FCM plugin API requests...
-  }
-
-  await FirebaseMessaging.instance.setAutoInitEnabled(true);
-
-  // Register app to general topic
   try {
-    await FirebaseMessaging.instance.subscribeToTopic('GENERAL');
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    setupFlutterNotifications();
+
+    // Pass all uncaught "fatal" errors from the framework to Crashlytics
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+    _initializeFirebaseMessaging();
   } catch (e) {
-    FirebaseCrashlytics.instance.recordError({
-      'exception': e,
-      'context': context,
-      'information': 'Error subscribing to topic',
-    }, null);
-    LOGGER.e('Error subscribing to topic: $e');
+    LOGGER.e(e);
   }
-
-  // Get the token
-  try {
-    String? fcmToken = await FirebaseMessaging.instance.getToken();
-    LOGGER.d('Initial FCM Token: $fcmToken');
-    await getIt<PreferencesDatasource>()
-        .saveString(PreferencesDatasource.fcmTokenKey, fcmToken ?? '');
-  } catch (e) {
-    FirebaseCrashlytics.instance.recordError({
-      'exception': e,
-      'context': context,
-      'information': 'Error getting FCM token',
-    }, null);
-
-    LOGGER.e('Error getting FCM token: $e');
-  }
-
-  // Listen to token refresh
-  FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
-    LOGGER.d('FCM Token refreshed: $fcmToken');
-    await getIt<PreferencesDatasource>()
-        .saveString(PreferencesDatasource.fcmTokenKey, fcmToken);
-  }).onError((err) {
-    FirebaseCrashlytics.instance.recordError({
-      'exception': err,
-      'context': context,
-      'information': 'Error getting FCM token',
-    }, null);
-    LOGGER.e('Error getting FCM token: $err');
-  });
-
-  // Set up foreground message handler
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    // LOGGER.d('A new message data: ${jsonEncode(message)}');
-
-    if (message.notification != null) {
-      // LOGGER.d('Message also contained a notification: ${jsonEncode(message.notification)}');
-    }
-    showFlutterNotification(message);
-  });
 
   runApp(RestartWidget(localeProvider: localeProvider));
 }
@@ -291,13 +317,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<HomeViewModel>(
             create: (_) => HomeViewModel(getIt(), getIt())),
         ChangeNotifierProvider<RecommendedPublicationViewModel>(
-            create: (_) => RecommendedPublicationViewModel(getIt())),
+            create: (_) => RecommendedPublicationViewModel(getIt(), getIt())),
         ChangeNotifierProvider<SearchViewModel>(
-            create: (_) => SearchViewModel(getIt(), getIt())),
+            create: (_) => SearchViewModel(getIt(), getIt(), getIt())),
         ChangeNotifierProvider<ThemeViewModel>(
             create: (_) => ThemeViewModel(getIt())),
         ChangeNotifierProvider<ForumsViewModel>(
-            create: (_) => ForumsViewModel(getIt())),
+            create: (_) => ForumsViewModel(getIt(), getIt())),
         ChangeNotifierProvider<ForumDetailViewModel>(
             create: (_) => ForumDetailViewModel(getIt(), getIt())),
         ChangeNotifierProvider<NotificationsViewModel>(
@@ -313,7 +339,7 @@ class MyApp extends StatelessWidget {
                 themeRepository: getIt(),
                 utilityDatasource: getIt())),
         ChangeNotifierProvider<PublicationListViewModel>(
-            create: (_) => PublicationListViewModel(getIt())),
+            create: (_) => PublicationListViewModel(getIt(), getIt())),
         ChangeNotifierProvider<LoginViewModel>(
             create: (_) => LoginViewModel(getIt(), getIt(), getIt())),
         ChangeNotifierProvider<SignupViewModel>(
@@ -327,7 +353,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<CreateForumViewModel>(
             create: (_) => CreateForumViewModel(forumRepository: getIt())),
         ChangeNotifierProvider<TopSearchesViewModel>(
-            create: (_) => TopSearchesViewModel(getIt())),
+            create: (_) => TopSearchesViewModel(getIt(), getIt())),
         ChangeNotifierProvider<AiViewModel>(
             create: (_) => AiViewModel(getIt(), getIt())),
         ChangeNotifierProvider<MyFavoritesViewModel>(
@@ -337,11 +363,16 @@ class MyApp extends StatelessWidget {
                 ContentRequestViewModel(publicationRepository: getIt())),
         ChangeNotifierProvider<CommunitiesViewModel>(
             create: (_) => CommunitiesViewModel(
-                communitiesRepository: getIt(), authRepository: getIt())),
+                communitiesRepository: getIt(),
+                authRepository: getIt(),
+                connectionRepository: getIt())),
         ChangeNotifierProvider<CommunityDetailViewModel>(
             create: (_) => CommunityDetailViewModel(getIt(), getIt())),
         ChangeNotifierProvider<EventsViewModel>(
-            create: (_) => EventsViewModel(eventRepository: getIt())),
+            create: (_) => EventsViewModel(
+                eventRepository: getIt(),
+                eventsDatasource: getIt(),
+                connectionRepository: getIt())),
         ChangeNotifierProvider<KnowledgeHubViewModel>(
             create: (_) => KnowledgeHubViewModel(
                 utilityDatasource: getIt(),

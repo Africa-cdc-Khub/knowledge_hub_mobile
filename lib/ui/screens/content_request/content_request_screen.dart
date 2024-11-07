@@ -307,7 +307,7 @@ class _CreateForumScreenState extends State<ContentRequestScreen> {
       controller: _detailsController,
       isEnabled: true,
       ensureVisible: true,
-      minHeight: 500,
+      minHeight: 600,
       autoFocus: false,
       textStyle: _editorTextStyle,
       hintTextStyle: _hintTextStyle,

@@ -32,7 +32,7 @@ class ThemeViewModel extends ChangeNotifier with SafeNotifier {
 
   ThemeViewModel(this.themeRepository);
 
-  Future<void> fetchThemes() async {
+  Future<void> fetchThemes(bool isTablet) async {
     state._loading = true;
     safeNotifyListeners();
 
@@ -42,9 +42,13 @@ class ThemeViewModel extends ChangeNotifier with SafeNotifier {
       if (result is DataSuccess) {
         final list = result.data!;
         state._themes = list;
-        final actionThemes = Helpers.pickNItems(list, 3);
+        final actionThemes = Helpers.pickNItems(list, isTablet ? 4 : 2);
+        LOGGER.d('actionThemes: ${actionThemes.length}');
         actionThemes.add(ThemeModel(
-            id: 100000, description: '', icon: 'fa-users', displayIndex: 1));
+            id: 100000,
+            description: 'More',
+            icon: 'fa-users',
+            displayIndex: 1));
         state._actionThemes = actionThemes;
       }
 

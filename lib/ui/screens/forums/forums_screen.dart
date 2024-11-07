@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:khub_mobile/ui/elements/components.dart';
 import 'package:khub_mobile/ui/elements/empty_view_element.dart';
+import 'package:khub_mobile/ui/elements/error_view_element.dart';
 import 'package:khub_mobile/ui/elements/listItems/forum_list_item.dart';
 import 'package:khub_mobile/ui/elements/loading_view.dart';
 import 'package:khub_mobile/ui/elements/search_bar.dart';
@@ -92,6 +93,18 @@ class _ForumsScreenState extends State<ForumsScreen> {
                   builder: (context, provider, child) {
                 if (provider.state.loading && provider.state.forums.isEmpty) {
                   return const Center(child: LoadingView());
+                }
+
+                if (provider.state.errorMessage.isNotEmpty) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ErrorViewElement(
+                        errorType: provider.state.errorType,
+                        retry: () => _fetchItems(),
+                      ),
+                    ],
+                  );
                 }
 
                 if (provider.state.forums.isEmpty) {

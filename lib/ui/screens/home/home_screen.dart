@@ -41,17 +41,22 @@ class _HomeScreenState extends State<HomeScreen> {
     authViewModel = Provider.of<AuthViewModel>(context, listen: false);
     themeViewModel = Provider.of<ThemeViewModel>(context, listen: false);
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final screenSize = MediaQuery.of(context).size;
+      final shortestSide = screenSize.shortestSide;
+      final isTablet = shortestSide >= 600;
+      _getThemes(isTablet);
+    });
+
     authViewModel.checkLoginStatus();
-    _getThemes();
-    // Download utilities
     _getUtilities();
     _getCurrentUser();
     _getUnreadNotificationCount();
     super.initState();
   }
 
-  Future<void> _getThemes() async {
-    await themeViewModel.fetchThemes();
+  Future<void> _getThemes(bool isTablet) async {
+    await themeViewModel.fetchThemes(isTablet);
     if (mounted) {
       setState(() {});
     }
@@ -80,6 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth >= 600; // Material Design tablet breakpoint
+
     return Scaffold(
       appBar: _appBar(context),
       backgroundColor: Colors.white,
@@ -127,8 +135,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ySpacer(14),
             Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                constraints: const BoxConstraints(
-                    minHeight: 50, minWidth: double.infinity, maxHeight: 70),
+                constraints: BoxConstraints(
+                    minHeight: 50,
+                    minWidth: double.infinity,
+                    maxHeight: isTablet ? 160 : 110),
                 child: const ThemeList()),
             ySpacer(16.0),
             Padding(

@@ -18,7 +18,7 @@ EventModel _$EventModelFromJson(Map<String, dynamic> json) => EventModel(
       status: json['status'] as String,
       eventLink: json['eventLink'] as String?,
       registrationLink: json['registrationLink'] as String,
-      isOnline: json['isOnline'] as bool,
+      isOnline: (json['isOnline'] as num).toInt(),
       contactPerson: json['contactPerson'] as String,
       bannerImage: json['bannerImage'] as String,
       countryId: (json['countryId'] as num).toInt(),

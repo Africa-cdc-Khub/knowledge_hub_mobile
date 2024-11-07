@@ -6,7 +6,7 @@ part of 'api_client.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations
 
 class _APIClient implements APIClient {
   _APIClient(
@@ -210,14 +210,16 @@ class _APIClient implements APIClient {
       ));
     }
     if (cover != null) {
-      _data.files.add(MapEntry(
-        'cover',
-        MultipartFile.fromFileSync(
-          cover.path,
-          filename: cover.path.split(Platform.pathSeparator).last,
-          contentType: MediaType.parse('image/jpeg'),
-        ),
-      ));
+      if (cover != null) {
+        _data.files.add(MapEntry(
+          'cover',
+          MultipartFile.fromFileSync(
+            cover.path,
+            filename: cover.path.split(Platform.pathSeparator).last,
+            contentType: MediaType.parse('image/jpeg'),
+          ),
+        ));
+      }
     }
     final _options = _setStreamType<dynamic>(Options(
       method: 'POST',
@@ -714,14 +716,16 @@ class _APIClient implements APIClient {
       description,
     ));
     if (image != null) {
-      _data.files.add(MapEntry(
-        'image',
-        MultipartFile.fromFileSync(
-          image.path,
-          filename: image.path.split(Platform.pathSeparator).last,
-          contentType: MediaType.parse('image/jpeg'),
-        ),
-      ));
+      if (image != null) {
+        _data.files.add(MapEntry(
+          'image',
+          MultipartFile.fromFileSync(
+            image.path,
+            filename: image.path.split(Platform.pathSeparator).last,
+            contentType: MediaType.parse('image/jpeg'),
+          ),
+        ));
+      }
     }
     final _options = _setStreamType<dynamic>(Options(
       method: 'POST',

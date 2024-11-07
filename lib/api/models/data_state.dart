@@ -1,8 +1,8 @@
 abstract class DataState<T> {
   final T? data;
   final String? error;
-
-  const DataState({this.data, this.error});
+  final int? errorType;
+  const DataState({this.data, this.error, this.errorType});
 }
 
 class DataLoading<T> extends DataState<T> {
@@ -14,5 +14,5 @@ class DataSuccess<T> extends DataState<T> {
 }
 
 class DataError<T> extends DataState<T> {
-  const DataError(String error) : super(error: error);
+  const DataError(String error, {super.errorType}) : super(error: error);
 }

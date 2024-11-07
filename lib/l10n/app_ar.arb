@@ -169,5 +169,7 @@
     "noJobsFound": "لم يتم العثور على وظائف",
     "noCountriesFound": "لم يتم العثور على دول",
     "fieldRequired": "مطلوب الحقل",
-    "invalidPhoneNumber": "رقم الهاتف غير موجود"
+    "invalidPhoneNumber": "رقم الهاتف غير موجود",
+    "noInternetConnection": "لا يوجد إنترنت",
+    "retry": "إعادة المحاولة"
 }

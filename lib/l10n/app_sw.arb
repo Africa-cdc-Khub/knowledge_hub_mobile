@@ -169,5 +169,7 @@
     "noJobsFound": "Hakuna ofaa zilizopatikana",
     "noCountriesFound": "Hakuna nchi zilizopatikana",
     "fieldRequired": "Kichwa cha kutafuta",
-    "invalidPhoneNumber": "Namba ya simu siwezi"
+    "invalidPhoneNumber": "Namba ya simu siwezi",
+    "noInternetConnection": "No internet connection",
+    "retry": "Reintentar"
 }

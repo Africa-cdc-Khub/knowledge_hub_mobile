@@ -13,6 +13,7 @@ import 'package:khub_mobile/themes/main_theme.dart';
 import 'package:khub_mobile/ui/screens/publish/publish_view_model.dart';
 import 'package:khub_mobile/utils/l10n_extensions.dart';
 import 'package:provider/provider.dart';
+import 'dart:math' as math;
 
 class CreatePublicationScreen extends StatefulWidget {
   const CreatePublicationScreen({super.key});
@@ -129,56 +130,62 @@ class _CreatePublicationScreenState extends State<CreatePublicationScreen> {
   }
 
   Widget _steppers() {
-    return SizedBox(
-      height: 70,
-      child: Row(
-        children: List.generate(4, (index) {
-          return Expanded(
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: InkWell(
-                    onTap: () {
-                      // setState(() {
-                      //   _currentStep = index;
-                      // });
-                    },
-                    child: StepWidget(
-                      isActive: index == _currentStep,
-                      isCompleted: index < _currentStep,
-                      stepNumber: index + 1,
-                      title: '${context.localized.step} ${index + 1}',
+    return LayoutBuilder(builder: (context, constraints) {
+      final maxWidth = math.min(constraints.maxWidth, 800.0);
+
+      return Center(
+        child: SizedBox(
+          width: maxWidth,
+          height: 70,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(4, (index) {
+              // Calculate connector width based on available space
+              final itemWidth = maxWidth / 4;
+              final connectorWidth =
+                  itemWidth - 70; // Subtract space for step circle
+
+              return Expanded(
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        onTap: () {},
+                        child: StepWidget(
+                          isActive: index == _currentStep,
+                          isCompleted: index < _currentStep,
+                          stepNumber: index + 1,
+                          title: '${context.localized.step} ${index + 1}',
+                        ),
+                      ),
                     ),
-                  ),
+                    if (index != 3)
+                      Positioned(
+                        left: itemWidth / 2 + 12,
+                        right: 0,
+                        top: 16,
+                        child: Connector(
+                          isActive: index < _currentStep,
+                        ),
+                      ),
+                    if (index != 0)
+                      Positioned(
+                        left: 0,
+                        right: itemWidth / 2 + 10,
+                        top: 16,
+                        child: Connector(
+                          isActive: index < _currentStep + 1,
+                        ),
+                      ),
+                  ],
                 ),
-                if (index != 3) // Add connector except after the last step
-                  Positioned(
-                    right: 0,
-                    left: 68,
-                    // Adjust this value to position the connector correctly
-                    top: 17,
-                    // Adjust this value to align the connector vertically
-                    child: Connector(
-                      isActive: index < _currentStep,
-                    ),
-                  ),
-                if (index != 0)
-                  Positioned(
-                    right: 68,
-                    // Adjust this value to position the connector correctly
-                    top: 17,
-                    // Adjust this value to align the connector vertically
-                    child: Connector(
-                      isActive: index < _currentStep + 1,
-                    ),
-                  ),
-              ],
-            ),
-          );
-        }),
-      ),
-    );
+              );
+            }),
+          ),
+        ),
+      );
+    });
   }
 }
 

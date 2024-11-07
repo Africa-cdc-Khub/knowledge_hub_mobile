@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:khub_mobile/ui/elements/empty_view_element.dart';
+import 'package:khub_mobile/ui/elements/error_view_element.dart';
 import 'package:khub_mobile/ui/elements/listItems/publication_item.dart';
 import 'package:khub_mobile/ui/elements/loading_view.dart';
 import 'package:khub_mobile/ui/screens/auth/auth_view_model.dart';
@@ -108,6 +109,18 @@ class _PublicationsListScreenState extends State<PublicationsListScreen> {
               if (provider.state.loading &&
                   provider.state.publications.isEmpty) {
                 return const Center(child: LoadingView());
+              }
+
+              if (provider.state.errorMessage.isNotEmpty) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ErrorViewElement(
+                      errorType: provider.state.errorType,
+                      retry: () => _fetchPublications(),
+                    ),
+                  ],
+                );
               }
 
               if (provider.state.publications.isEmpty) {

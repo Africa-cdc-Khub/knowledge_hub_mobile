@@ -6,8 +6,8 @@ class ThemeListItem extends StatelessWidget {
   final ThemeModel model;
   final Color? containerColor;
   final Color? color;
-  final double? width;
-  final double? height;
+  final double width;
+  final double height;
   final Null Function()? onClick;
 
   const ThemeListItem({
@@ -16,29 +16,30 @@ class ThemeListItem extends StatelessWidget {
     this.color,
     this.onClick,
     required this.model,
-    this.width,
-    this.height,
+    required this.width,
+    required this.height,
   });
 
   @override
   Widget build(BuildContext context) {
     IconData? iconData = iconClassToIcon[model.icon];
-    final double itemWidth = width ?? 100;
+    final double itemWidth = width;
+    final bool isTablet = MediaQuery.of(context).size.width >= 600;
     final bool showDescription = itemWidth >= 100;
 
     return InkWell(
       onTap: onClick,
       child: SizedBox(
         width: itemWidth,
-        height: height ?? (showDescription ? 80.0 : 64.0),
+        height: height,
         child: Card(
           elevation: 0,
           color: containerColor ?? Theme.of(context).primaryColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18.0),
+            borderRadius: BorderRadius.circular(isTablet ? 24.0 : 18.0),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(isTablet ? 10.0 : 8.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -46,17 +47,17 @@ class ThemeListItem extends StatelessWidget {
                   model.id == 100000
                       ? Icons.dashboard_customize_rounded
                       : iconData,
-                  size: 25,
+                  size: isTablet ? 32 : 25,
                   color: color ?? Colors.white,
                 ),
                 if (showDescription)
                   Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
+                    padding: EdgeInsets.only(top: isTablet ? 12.0 : 8.0),
                     child: Text(
-                      model.description ?? '',
+                      model.description,
                       style: TextStyle(
                         color: color ?? Colors.white,
-                        fontSize: 12,
+                        fontSize: isTablet ? 14 : 12,
                       ),
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,

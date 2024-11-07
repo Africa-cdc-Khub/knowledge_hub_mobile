@@ -6,6 +6,7 @@ import 'package:khub_mobile/models/community_model.dart';
 import 'package:khub_mobile/models/user_model.dart';
 import 'package:khub_mobile/repository/auth_repository.dart';
 import 'package:khub_mobile/repository/communities_repository.dart';
+import 'package:khub_mobile/repository/connection_repository.dart';
 import 'package:khub_mobile/ui/providers/safe_notifier.dart';
 
 class CommunityState {
@@ -16,6 +17,7 @@ class CommunityState {
   int _currentPage = Config.startPage;
   int _totalPages = 1;
   bool _isEndOfPage = false;
+  int _errorType = 2;
 
   bool get loading => _loading;
   bool get isSuccess => _isSuccess;
@@ -24,6 +26,7 @@ class CommunityState {
   int get currentPage => _currentPage;
   int get totalPages => _totalPages;
   bool get isEndOfPage => _isEndOfPage;
+  int get errorType => _errorType;
 }
 
 class CommunitiesViewModel extends ChangeNotifier with SafeNotifier {
@@ -32,9 +35,12 @@ class CommunitiesViewModel extends ChangeNotifier with SafeNotifier {
 
   final CommunitiesRepository communitiesRepository;
   final AuthRepository authRepository;
+  final ConnectionRepository connectionRepository;
 
   CommunitiesViewModel(
-      {required this.communitiesRepository, required this.authRepository});
+      {required this.communitiesRepository,
+      required this.authRepository,
+      required this.connectionRepository});
 
   Future<void> fetchCommunities() async {
     state._loading = true;
@@ -43,9 +49,16 @@ class CommunitiesViewModel extends ChangeNotifier with SafeNotifier {
     state._isEndOfPage = false; // reset
     safeNotifyListeners();
 
-    final result = await communitiesRepository.fetchCommunities();
-
     try {
+      final isConnected = await connectionRepository.checkInternetStatus();
+      state._errorMessage = isConnected ? '' : 'No internet connection';
+      if (!isConnected) {
+        state._errorType = 1;
+        safeNotifyListeners();
+        return;
+      }
+      final result = await communitiesRepository.fetchCommunities();
+
       if (result is DataSuccess) {
         state._loading = false;
         state._totalPages = result.data?.total ?? 1;

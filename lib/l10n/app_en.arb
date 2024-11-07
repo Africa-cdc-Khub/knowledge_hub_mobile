@@ -169,5 +169,7 @@
     "noJobsFound": "No jobs found",
     "noCountriesFound": "No countries found",
     "fieldRequired": "Field required",
-    "invalidPhoneNumber": "Invalid phone number"
+    "invalidPhoneNumber": "Invalid phone number",
+    "noInternetConnection": "No internet connection",
+    "retry": "Retry"
 }

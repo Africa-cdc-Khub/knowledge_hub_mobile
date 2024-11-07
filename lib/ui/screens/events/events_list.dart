@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:khub_mobile/models/event_model.dart';
-import 'package:khub_mobile/ui/elements/loading_view.dart';
 import 'package:khub_mobile/ui/screens/events/events_view_model.dart';
 import 'package:khub_mobile/utils/navigation/route_names.dart';
 import 'package:provider/provider.dart';
@@ -42,14 +41,10 @@ class _EventsListState extends State<EventsList> {
     return FutureBuilder(
         future: myFuture,
         builder: (ctx, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: LoadingView());
-          } else if (snapshot.hasData) {
+          if (snapshot.hasData) {
             return _events.isEmpty
                 ? const SizedBox.shrink()
                 : EventsCarousel(events: _events);
-          } else if (snapshot.hasError) {
-            return const Text('Error');
           } else {
             return const SizedBox.shrink();
           }

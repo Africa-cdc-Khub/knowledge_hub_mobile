@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:khub_mobile/models/publication_model.dart';
 import 'package:khub_mobile/ui/elements/empty_view_element.dart';
+import 'package:khub_mobile/ui/elements/error_view_element.dart';
 import 'package:khub_mobile/ui/elements/listItems/publication_item.dart';
 import 'package:khub_mobile/ui/elements/loading_view.dart';
 import 'package:khub_mobile/ui/screens/home/top_searches/top_searches_view_model.dart';
 import 'package:khub_mobile/ui/screens/publication/detail/publication_detail_view_model.dart';
-import 'package:khub_mobile/utils/l10n_extensions.dart';
 import 'package:khub_mobile/utils/navigation/route_names.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +21,8 @@ class _TopSearchesState extends State<TopSearches> {
   late TopSearchesViewModel viewModel;
   late Future? myFuture;
   List<PublicationModel> _searches = [];
+  int errorType = 2;
+  String errorMessage = '';
 
   @override
   void initState() {
@@ -34,6 +36,11 @@ class _TopSearchesState extends State<TopSearches> {
     if (state.isSuccess) {
       setState(() {
         _searches = state.publications;
+      });
+    } else {
+      setState(() {
+        errorType = state.errorType;
+        errorMessage = state.errorMessage;
       });
     }
 
@@ -49,7 +56,22 @@ class _TopSearchesState extends State<TopSearches> {
             return const Center(child: LoadingView());
           } else if (snapshot.hasData) {
             return _searches.isEmpty
-                ? const EmptyViewElement()
+                ? Builder(builder: (context) {
+                    return errorMessage.isNotEmpty
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ErrorViewElement(
+                                  errorType: errorType,
+                                  retry: () {
+                                    setState(() {
+                                      myFuture = _fetchItems();
+                                    });
+                                  }),
+                            ],
+                          )
+                        : const EmptyViewElement();
+                  })
                 : ListView.builder(
                     shrinkWrap: true,
                     // physics: const NeverScrollableScrollPhysics(),
@@ -72,7 +94,13 @@ class _TopSearchesState extends State<TopSearches> {
                   );
             // return const Text('Data has been got');
           } else if (snapshot.hasError) {
-            return Text(context.localized.errorOccurred);
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ErrorViewElement(
+                    errorType: errorType, retry: () => _fetchItems()),
+              ],
+            );
           } else {
             return const SizedBox.shrink();
           }

@@ -215,26 +215,25 @@ class _CompareScreenState extends State<CompareScreen> {
   }
 
   void _submit() async {
-    setState(() {
-      _isLoading = true;
-      _isLongLoading = false;
-      _showAdditionalInstructions = false;
-    });
-
-    _loadingTimer = Timer(const Duration(seconds: 6), () {
-      if (mounted) {
-        setState(() {
-          _isLongLoading = true;
-        });
-      }
-    });
-
     if (mounted) {
       final compareViewModel =
           Provider.of<CompareViewModel>(context, listen: false);
 
       if (compareViewModel.state.publicationOne != null &&
           compareViewModel.state.publicationTwo != null) {
+        setState(() {
+          _isLoading = true;
+          _isLongLoading = false;
+          _showAdditionalInstructions = false;
+        });
+
+        _loadingTimer = Timer(const Duration(seconds: 6), () {
+          if (mounted) {
+            setState(() {
+              _isLongLoading = true;
+            });
+          }
+        });
         final state = await compareViewModel.comparePublications(
             prompt: _promptController.text);
 

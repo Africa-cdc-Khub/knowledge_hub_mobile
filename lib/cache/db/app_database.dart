@@ -150,6 +150,27 @@ final List<String> migrations = [
     description INTEGER,
     icon TEXT
   );
+  ''',
+  '''
+  CREATE TABLE ${AppDatabase.eventTable}(
+    id INTEGER PRIMARY KEY NOT NULL,
+    title TEXT,
+    description TEXT,
+    venue TEXT,
+    startDate TEXT,
+    endDate TEXT,
+    organizedBy TEXT,
+    fee REAL,
+    status TEXT,
+    eventLink TEXT,
+    registrationLink TEXT,
+    isOnline INTEGER,
+    contactPerson TEXT,
+    bannerImage TEXT,
+    countryId INTEGER,
+    createdAt TEXT,
+    updatedAt TEXT
+  );
   '''
 ];
 
@@ -169,6 +190,7 @@ class AppDatabase {
   static const String themeTable = 'theme_table';
   static const String resourceTypeTable = 'resource_type_table';
   static const String resourceCategoryTable = 'resource_category_table';
+  static const String eventTable = 'event_table';
 
   final config = MigrationConfig(
       initializationScript: initialScript, migrationScripts: migrations);

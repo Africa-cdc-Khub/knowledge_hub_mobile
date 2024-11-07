@@ -13,6 +13,12 @@ class ThemesBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth >= 600; // Material Design tablet breakpoint
+    final crossAxisCount = isTablet ? 5 : 3;
+    final itemWidth =
+        (screenWidth / crossAxisCount) - 12; // Account for margins
+
     return Container(
       // width: double.maxFinite,
       decoration: const BoxDecoration(
@@ -50,16 +56,19 @@ class ThemesBottomSheet extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(top: 16.0),
               child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3, // number of items in each row
-                  mainAxisSpacing: 10.0, // spacing between rows
-                  crossAxisSpacing: 6.0, // spacing between columns
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  // childAspectRatio: isTablet ? 0.85 : 1.0,
+                  crossAxisSpacing: isTablet ? 6.0 : 4.0,
+                  mainAxisSpacing: isTablet ? 6.0 : 4.0,
                 ), // padding around the grid
                 itemCount: themeList.length, // total number of items
                 itemBuilder: (context, index) {
                   final item = themeList[index];
                   return ThemeListItem(
                     model: item,
+                    width: itemWidth,
+                    height: isTablet ? 100.0 : 70,
                     color: Theme.of(context).primaryColor,
                     containerColor:
                         Theme.of(context).primaryColor.withOpacity(0.1),

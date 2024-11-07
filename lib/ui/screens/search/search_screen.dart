@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:khub_mobile/models/publication_model.dart';
+import 'package:khub_mobile/ui/elements/error_view_element.dart';
 import 'package:khub_mobile/ui/elements/listItems/forum_list_item.dart';
 import 'package:khub_mobile/ui/elements/listItems/publication_item.dart';
 import 'package:khub_mobile/ui/elements/loading_view.dart';
@@ -136,6 +137,21 @@ class _SearchScreenState extends State<SearchScreen> {
                               provider.state.forums.isEmpty)) {
                         return const Center(child: LoadingView());
                       }
+                    }
+
+                    if (provider.state.errorMessage.isNotEmpty) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ErrorViewElement(
+                            errorType: provider.state.errorType,
+                            retry: () => widget.searchState.searchType ==
+                                    SearchType.publication
+                                ? _fetchPublications()
+                                : _fetchForums(),
+                          ),
+                        ],
+                      );
                     }
 
                     if (widget.searchState.searchType ==

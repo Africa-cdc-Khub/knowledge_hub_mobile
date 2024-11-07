@@ -169,5 +169,7 @@
     "noJobsFound": "Aucune offre d'emploi trouvée",
     "noCountriesFound": "Aucune pays trouvé",
     "fieldRequired": "Champ requis",
-    "invalidPhoneNumber": "Numéro de téléphone invalide"
+    "invalidPhoneNumber": "Numéro de téléphone invalide",
+    "noInternetConnection": "No internet connection",
+    "retry": "Réessayer"
 }

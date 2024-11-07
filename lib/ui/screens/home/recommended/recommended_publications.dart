@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:khub_mobile/ui/elements/empty_view_element.dart';
+import 'package:khub_mobile/ui/elements/error_view_element.dart';
 import 'package:khub_mobile/ui/elements/listItems/publication_item.dart';
 import 'package:khub_mobile/models/publication_model.dart';
 import 'package:khub_mobile/ui/elements/loading_view.dart';
 import 'package:khub_mobile/ui/screens/home/recommended/recommended_publication_view_model.dart';
 import 'package:khub_mobile/ui/screens/publication/detail/publication_detail_view_model.dart';
-import 'package:khub_mobile/utils/l10n_extensions.dart';
 import 'package:khub_mobile/utils/navigation/route_names.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +22,8 @@ class _RecommendedPublicationsState extends State<RecommendedPublications> {
   late RecommendedPublicationViewModel viewModel;
   late Future? myFuture;
   List<PublicationModel> _recommended = [];
+  int errorType = 2;
+  String errorMessage = '';
 
   @override
   void initState() {
@@ -38,6 +40,11 @@ class _RecommendedPublicationsState extends State<RecommendedPublications> {
       setState(() {
         _recommended = state.publications;
       });
+    } else {
+      setState(() {
+        errorType = state.errorType;
+        errorMessage = state.errorMessage;
+      });
     }
 
     return [];
@@ -52,7 +59,22 @@ class _RecommendedPublicationsState extends State<RecommendedPublications> {
             return const Center(child: LoadingView());
           } else if (snapshot.hasData) {
             return _recommended.isEmpty
-                ? const EmptyViewElement()
+                ? Builder(builder: (context) {
+                    return errorMessage.isNotEmpty
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ErrorViewElement(
+                                  errorType: errorType,
+                                  retry: () {
+                                    setState(() {
+                                      myFuture = _fetchItems();
+                                    });
+                                  }),
+                            ],
+                          )
+                        : const EmptyViewElement();
+                  })
                 : ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
@@ -74,7 +96,12 @@ class _RecommendedPublicationsState extends State<RecommendedPublications> {
                   );
             // return const Text('Data has been got');
           } else if (snapshot.hasError) {
-            return Text(context.localized.errorOccurred);
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ErrorViewElement(errorType: 2, retry: () => _fetchItems()),
+              ],
+            );
           } else {
             return const SizedBox.shrink();
           }
