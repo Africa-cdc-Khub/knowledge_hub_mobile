@@ -13,7 +13,7 @@ class ForumState {
   String _errorMessage = '';
   int _errorType = 2;
   List<ForumModel> _forums = [];
-  int _currentPage = Config.startPage;
+  int _currentPage = EnvConfig.startPage;
   int _totalPages = 1;
   bool _isEndOfPage = false;
   bool _isRefreshing = false;
@@ -41,10 +41,10 @@ class ForumsViewModel extends ChangeNotifier with SafeNotifier {
     safeNotifyListeners();
   }
 
-  Future<void> fetchForums({int page = Config.startPage}) async {
+  Future<void> fetchForums({int page = EnvConfig.startPage}) async {
     state._loading = true;
     state._forums = []; // reset
-    state._currentPage = Config.startPage; // reset
+    state._currentPage = EnvConfig.startPage; // reset
     state._isEndOfPage = false; // reset
     safeNotifyListeners();
 

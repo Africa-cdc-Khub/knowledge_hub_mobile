@@ -13,7 +13,7 @@ class SearchState {
   bool _loading = false;
   bool _loadingMore = false;
   String _errorMessage = '';
-  int _currentPage = Config.startPage;
+  int _currentPage = EnvConfig.startPage;
   int _totalPages = 1;
   bool _isEndOfPage = false;
   List<PublicationModel> _publications = [];
@@ -51,10 +51,10 @@ class SearchViewModel extends ChangeNotifier with SafeNotifier {
   }
 
   Future<void> fetchPublications(
-      {String term = '', int page = Config.startPage}) async {
+      {String term = '', int page = EnvConfig.startPage}) async {
     state._loading = true;
     state._publications = []; // reset
-    state._currentPage = Config.startPage; // reset
+    state._currentPage = EnvConfig.startPage; // reset
     state._isEndOfPage = false; // reset
     safeNotifyListeners();
 
@@ -130,10 +130,10 @@ class SearchViewModel extends ChangeNotifier with SafeNotifier {
   }
 
   Future<void> fetchForums(
-      {String term = '', int page = Config.startPage}) async {
+      {String term = '', int page = EnvConfig.startPage}) async {
     state._loading = true;
     state._forums = []; // reset
-    state._currentPage = Config.startPage; // reset
+    state._currentPage = EnvConfig.startPage; // reset
     state._isEndOfPage = false; // reset
     safeNotifyListeners();
 

@@ -18,7 +18,7 @@ class ApiClientRepositoryImpl extends ApiClientRepository {
   APIClient buildClient() {
     final savedUrl =
         preferencesDatasource.getString(PreferencesDatasource.baseUrlKey);
-    final baseUrl = savedUrl.isEmpty ? Config().baseUrl : savedUrl;
+    final baseUrl = savedUrl.isEmpty ? EnvConfig().baseUrl : savedUrl;
 
     final dio = initDio(baseUrl);
     return APIClient(dio);
@@ -28,7 +28,7 @@ class ApiClientRepositoryImpl extends ApiClientRepository {
   AuthClient buildAuthClient() {
     final savedUrl =
         preferencesDatasource.getString(PreferencesDatasource.baseUrlKey);
-    final baseUrl = savedUrl.isEmpty ? Config().baseUrl : savedUrl;
+    final baseUrl = savedUrl.isEmpty ? EnvConfig().baseUrl : savedUrl;
 
     final dio = initDio(baseUrl);
     return AuthClient(dio);

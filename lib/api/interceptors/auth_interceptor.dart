@@ -124,7 +124,7 @@ class AuthInterceptor extends Interceptor {
     pref = await SharedPreferences.getInstance();
     final savedUrl = pref.getString(PreferencesDatasource.baseUrlKey);
 
-    return savedUrl ?? Config().baseUrl;
+    return savedUrl ?? EnvConfig().baseUrl;
   }
 
   Future<void> deleteSavedToken() async {

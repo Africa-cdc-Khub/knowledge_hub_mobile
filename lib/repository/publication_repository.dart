@@ -93,8 +93,8 @@ class PublicationRepositoryImpl extends PublicationRepository {
       int? categoryId}) async {
     try {
       Map<String, dynamic> request = {
-        'page': page ?? Config.startPage,
-        'page_size': pageSize ?? Config.pageSize
+        'page': page ?? EnvConfig.startPage,
+        'page_size': pageSize ?? EnvConfig.pageSize
       };
       if (term != null) request['term'] = term;
       if (author != null) request['author'] = author;
@@ -203,8 +203,8 @@ class PublicationRepositoryImpl extends PublicationRepository {
       int? themeId}) async {
     try {
       Map<String, dynamic> request = {
-        'page': page ?? Config.startPage,
-        'page_size': pageSize ?? Config.pageSize
+        'page': page ?? EnvConfig.startPage,
+        'page_size': pageSize ?? EnvConfig.pageSize
       };
       if (term != null) request['term'] = term;
       if (subThemeId != null) request['sub_thematic_area_id'] = subThemeId;

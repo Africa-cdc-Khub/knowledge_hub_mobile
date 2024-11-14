@@ -47,8 +47,8 @@ class ForumRepositoryImpl implements ForumRepository {
       // final ForumsResponse response = ForumsResponse.fromJson(result);
 
       Map<String, dynamic> request = {
-        'page': page ?? Config.startPage,
-        'page_size': pageSize ?? Config.pageSize
+        'page': page ?? EnvConfig.startPage,
+        'page_size': pageSize ?? EnvConfig.pageSize
       };
 
       if (term != null) request['term'] = term;

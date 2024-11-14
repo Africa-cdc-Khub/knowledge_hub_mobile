@@ -13,7 +13,7 @@ class ThemeDetailState {
   bool _loadingMore = false;
   bool _loadingSubThemes = false;
   String _errorMessage = '';
-  int _currentPage = Config.startPage;
+  int _currentPage = EnvConfig.startPage;
   int _totalPages = 1;
   List<PublicationModel> _publications = [];
   List<SubThemeModel> _subThemes = [];
@@ -38,12 +38,12 @@ class ThemeDetailViewModel extends ChangeNotifier with SafeNotifier {
 
   Future<void> fetchPublications(
       {required int themeId,
-      int page = Config.startPage,
+      int page = EnvConfig.startPage,
       bool? loadMore = false,
       int? subThemeId}) async {
     if (loadMore != null && !loadMore) {
       state._publications = []; // reset
-      state._currentPage = Config.startPage; // reset
+      state._currentPage = EnvConfig.startPage; // reset
       state._isEndOfPage = false; // reset
     }
 

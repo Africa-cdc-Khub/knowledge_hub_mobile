@@ -27,8 +27,8 @@ class CoursesRepositoryImpl implements CoursesRepository {
   }) async {
     try {
       Map<String, dynamic> request = {
-        'page': page ?? Config.startPage,
-        'page_size': pageSize ?? Config.pageSize
+        'page': page ?? EnvConfig.startPage,
+        'page_size': pageSize ?? EnvConfig.pageSize
       };
       final response = await _apiClient().getCourses(request);
 

@@ -9,7 +9,7 @@ import 'package:khub_mobile/ui/providers/safe_notifier.dart';
 class MyPublicationsState {
   bool _loading = false;
   String _errorMessage = '';
-  int _currentPage = Config.startPage;
+  int _currentPage = EnvConfig.startPage;
   int _totalPages = 1;
   bool _isEndOfPage = false;
   List<PublicationModel> _publications = [];
@@ -32,7 +32,7 @@ class MyPublicationsViewModel extends ChangeNotifier with SafeNotifier {
   Future<void> fetchPublications() async {
     state._loading = true;
     state._publications = []; // reset
-    state._currentPage = Config.startPage; // reset
+    state._currentPage = EnvConfig.startPage; // reset
     state._isEndOfPage = false; // reset
     safeNotifyListeners();
 

@@ -14,7 +14,7 @@ class CommunityState {
   final bool _isSuccess = false;
   String _errorMessage = '';
   List<CommunityModel> _communities = [];
-  int _currentPage = Config.startPage;
+  int _currentPage = EnvConfig.startPage;
   int _totalPages = 1;
   bool _isEndOfPage = false;
   int _errorType = 2;
@@ -45,7 +45,7 @@ class CommunitiesViewModel extends ChangeNotifier with SafeNotifier {
   Future<void> fetchCommunities() async {
     state._loading = true;
     state._communities = []; // reset
-    state._currentPage = Config.startPage; // reset
+    state._currentPage = EnvConfig.startPage; // reset
     state._isEndOfPage = false; // reset
     safeNotifyListeners();
 

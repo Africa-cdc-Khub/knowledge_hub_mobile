@@ -105,7 +105,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     icon: Icons.question_answer, onClick: () {
                   context.pushNamed(webViewer,
                       extra: WebViewerState(
-                          linkUrl: Config.faqsUrl,
+                          linkUrl: EnvConfig.faqsUrl,
                           title: context.localized.faqs));
                 }),
                 _accountItem(context,
@@ -114,7 +114,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     icon: Icons.lock, onClick: () {
                   context.pushNamed(webViewer,
                       extra: WebViewerState(
-                          linkUrl: Config.privacyPolicyUrl,
+                          linkUrl: EnvConfig.privacyPolicyUrl,
                           title: context.localized.privacyPolicy));
                 }),
                 ySpacer(20),

@@ -59,7 +59,7 @@ class KnowledgeHubViewModel extends ChangeNotifier with SafeNotifier {
             KnowledgeHubModel(
                 id: 10000,
                 name: 'Africa CDC',
-                baseUrl: Config().baseUrl,
+                baseUrl: EnvConfig().baseUrl,
                 isActive: true));
 
         final savedActiveHubId = preferencesDatasource
