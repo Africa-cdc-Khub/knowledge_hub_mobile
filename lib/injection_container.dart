@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:khub_mobile/cache/events_datasource.dart';
 import 'package:khub_mobile/cache/preferences_datasource.dart';
+import 'package:khub_mobile/cache/publication_datasource.dart';
 import 'package:khub_mobile/cache/theme_datasource.dart';
 import 'package:khub_mobile/cache/user_datasource.dart';
 import 'package:khub_mobile/cache/utility_datasource.dart';
@@ -63,12 +65,17 @@ Future<void> init() async {
   getIt.registerLazySingleton<EventsDatasource>(() => EventsDataSourceImpl());
   getIt.registerLazySingleton<PreferencesDatasource>(
       () => PreferencesDatasourceImpl(preferences: getIt()));
+  getIt.registerLazySingleton<PublicationDataSource>(
+      () => PublicationDataSourceImpl());
 
 // External Libs
   final sharedPreferences = await SharedPreferences.getInstance();
   getIt.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
   getIt.registerLazySingleton(() => http.Client());
   getIt.registerLazySingleton(() => Logger());
+
+  getIt.registerLazySingleton<GlobalKey<NavigatorState>>(
+      () => GlobalKey<NavigatorState>());
 
   // API
   // final baseUrl = await _getBaseUrl();

@@ -171,6 +171,16 @@ final List<String> migrations = [
     createdAt TEXT,
     updatedAt TEXT
   );
+  ''',
+  '''
+  CREATE TABLE ${AppDatabase.publicationTable}(
+    id INTEGER PRIMARY KEY NOT NULL,
+    title TEXT,
+    description TEXT,
+    imageUrl TEXT,
+    type INTEGER,
+    content TEXT
+  );
   '''
 ];
 
@@ -191,7 +201,7 @@ class AppDatabase {
   static const String resourceTypeTable = 'resource_type_table';
   static const String resourceCategoryTable = 'resource_category_table';
   static const String eventTable = 'event_table';
-
+  static const String publicationTable = 'publication_table';
   final config = MigrationConfig(
       initializationScript: initialScript, migrationScripts: migrations);
 

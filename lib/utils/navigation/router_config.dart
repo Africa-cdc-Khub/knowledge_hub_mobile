@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:khub_mobile/injection_container.dart';
 import 'package:khub_mobile/models/course_model.dart';
 import 'package:khub_mobile/models/event_model.dart';
 import 'package:khub_mobile/models/theme_model.dart';
@@ -46,6 +47,7 @@ class AppRouter {
 
   final GoRouter _mainRouter = GoRouter(
       initialLocation: "/$home",
+      navigatorKey: getIt<GlobalKey<NavigatorState>>(),
       redirect: (ctx, state) {
         return null;
       },

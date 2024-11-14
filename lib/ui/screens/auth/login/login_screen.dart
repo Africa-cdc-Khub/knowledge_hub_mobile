@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:khub_mobile/injection_container.dart';
 import 'package:khub_mobile/main.dart';
 import 'package:khub_mobile/themes/main_theme.dart';
+import 'package:khub_mobile/ui/elements/buttons/social_login_buttons.dart';
 import 'package:khub_mobile/ui/elements/custom_button.dart';
 import 'package:khub_mobile/ui/elements/labels.dart';
 import 'package:khub_mobile/ui/elements/spacers.dart';
@@ -30,6 +33,11 @@ class _LoginScreenState extends State<LoginScreen> {
   late LoginViewModel viewModel;
 
   bool _loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -133,12 +141,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           context.localized.login,
                           style: const TextStyle(color: Colors.white),
                         )),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: SocialLoginButtons(
+                        onGoogleSignIn: _handleGoogleSignIn,
+                        onMicrosoftSignIn: _handleMicrosoftSignIn,
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Text('Not a member?'),
+                        xSpacer(8),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          padding: const EdgeInsets.symmetric(vertical: 14.0),
                           child: InkWell(
                             onTap: () => _goToSignup(),
                             child: Text(
@@ -151,6 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
+                    ySpacer(16),
                   ],
                 )),
           ),
@@ -211,6 +229,52 @@ class _LoginScreenState extends State<LoginScreen> {
         //  to restart app
         RestartWidget.restartApp(context);
       }
+    }
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    setState(() {
+      _loading = true;
+    });
+
+    final state =
+        await Provider.of<AuthViewModel>(context, listen: false).googleSignIn();
+
+    setState(() {
+      _loading = false;
+    });
+    if (!state.isSuccess && mounted) {
+      AlertUtils.showError(context: context, errorMessage: state.errorMessage);
+    } else {
+      LOGGER.d(state.userDetails);
+    }
+  }
+
+  Future<void> _handleMicrosoftSignIn() async {
+    setState(() {
+      _loading = true;
+    });
+
+    final state = await Provider.of<AuthViewModel>(context, listen: false)
+        .microsoftSignIn();
+
+    setState(() {
+      _loading = false;
+    });
+    if (!state.isSuccess && mounted) {
+      AlertUtils.showError(context: context, errorMessage: state.errorMessage);
+    } else {
+      LOGGER.d(state.userDetails);
+    }
+  }
+
+  void _handleLoginSuccess(LoginState state) {
+    if (!state.isSuccess && mounted) {
+      AlertUtils.showError(context: context, errorMessage: state.errorMessage);
+    } else if (mounted) {
+      Provider.of<AuthViewModel>(context, listen: false).checkLoginStatus();
+      Provider.of<AuthViewModel>(context, listen: false).getCurrentUser();
+      RestartWidget.restartApp(context);
     }
   }
 }

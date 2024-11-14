@@ -171,5 +171,10 @@
     "fieldRequired": "Field required",
     "invalidPhoneNumber": "Invalid phone number",
     "noInternetConnection": "No internet connection",
-    "retry": "Retry"
+    "retry": "Retry",
+    "alreadyAmember": "Already a member?",
+    "notAmember": "Not a member?",
+    "microsoftSignInFailed": "Microsoft sign in failed",
+    "areYouSureYouWantToJoinThisCommunity": "Are you sure you want to join this community?",
+    "areYouSureYouWantToLeaveThisCommunity": "Are you sure you want to leave this community?"
 }

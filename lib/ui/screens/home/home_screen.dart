@@ -119,7 +119,6 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             const AppSearchBar(searchType: SearchType.publication),
             ySpacer(4.0),
-            // const Expanded(child: EventsList()),
             Container(
                 constraints: const BoxConstraints(
                     minHeight: 10, minWidth: double.infinity, maxHeight: 240),

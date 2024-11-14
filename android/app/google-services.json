@@ -13,7 +13,20 @@
           "package_name": "com.africacdc.khubmobile"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "800355033239-0m852ljn4cgsnl4f90777koaekmm2dmn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.africacdc.khubmobile",
+            "certificate_hash": "85db0ad8dd716a3e0006936e7a27810c6c50dbac"
+          }
+        },
+        {
+          "client_id": "800355033239-njs0v8nfnll5dh11i1m7ccro35kh32iq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB6t0aJNLVa2DGSfPmB4zRObCKiCf2SwIM"
@@ -21,7 +34,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "800355033239-njs0v8nfnll5dh11i1m7ccro35kh32iq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "800355033239-tsh3ersoubvmm52cf2aopi43180kl7de.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.africacdc.knowhub"
+              }
+            }
+          ]
         }
       }
     }

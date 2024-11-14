@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:khub_mobile/api/config/config.dart';
@@ -10,8 +11,10 @@ import 'package:khub_mobile/ui/screens/account/profile/profile_view_model.dart';
 import 'package:khub_mobile/ui/screens/auth/auth_view_model.dart';
 import 'package:khub_mobile/ui/screens/publication/viewer/web_viewer.dart';
 import 'package:khub_mobile/utils/l10n_extensions.dart';
+import 'package:khub_mobile/utils/microsoft_aad_config.dart';
 import 'package:khub_mobile/utils/navigation/route_names.dart';
 import 'package:provider/provider.dart';
+import 'package:aad_oauth/aad_oauth.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -219,6 +222,8 @@ class _AccountScreenState extends State<AccountScreen> {
 
   void _logout() async {
     final loggedOut = await authViewModel.logout();
+    await FirebaseAuth.instance.signOut(); // Sign out from Firebase
+    // await oauth.logout(); // Sign out from Microsoft
 
     if (loggedOut) {
       authViewModel.checkLoginStatus();

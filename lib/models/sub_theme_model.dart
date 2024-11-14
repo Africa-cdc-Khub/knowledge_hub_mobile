@@ -1,5 +1,9 @@
 import 'package:khub_mobile/api/models/subTheme/sub_theme_model.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'sub_theme_model.g.dart';
+
+@JsonSerializable()
 class SubThemeModel {
   int id;
   String description;
@@ -25,4 +29,9 @@ class SubThemeModel {
         updatedAt: model.updated_at ?? '',
         thematicAreaId: model.thematic_area_id ?? -1);
   }
+
+  factory SubThemeModel.fromJson(Map<String, dynamic> json) =>
+      _$SubThemeModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SubThemeModelToJson(this);
 }

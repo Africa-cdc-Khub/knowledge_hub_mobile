@@ -6,6 +6,7 @@ import 'package:khub_mobile/models/job_model.dart';
 import 'package:khub_mobile/models/option_item_model.dart';
 import 'package:khub_mobile/models/preference_model.dart';
 import 'package:khub_mobile/themes/main_theme.dart';
+import 'package:khub_mobile/ui/elements/buttons/social_login_buttons.dart';
 import 'package:khub_mobile/ui/elements/countries/countries_list_search.dart';
 import 'package:khub_mobile/ui/elements/custom_button.dart';
 import 'package:khub_mobile/ui/elements/dropdowns/custom_card_dropdown.dart';
@@ -336,10 +337,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           context.localized.register,
                           style: const TextStyle(color: Colors.white),
                         )),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: SocialLoginButtons(
+                        onGoogleSignIn: () {},
+                        onMicrosoftSignIn: () {},
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Text(context.localized.alreadyAmember),
+                        xSpacer(8),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20.0),
                           child: InkWell(

@@ -41,4 +41,16 @@ class LoginViewModel extends ChangeNotifier {
 
     return LoginState();
   }
+
+  Future<LoginState> loginWithGoogle(String accessToken) async {
+    // Implement API call to your backend with Google token
+    // Return LoginState based on response
+    return LoginState();
+  }
+
+  Future<LoginState> loginWithMicrosoft(String accessToken) async {
+    // Implement API call to your backend with Microsoft token
+    // Return LoginState based on response
+    return LoginState();
+  }
 }

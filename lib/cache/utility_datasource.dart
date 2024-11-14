@@ -95,7 +95,6 @@ class UtilityDatasourceImpl implements UtilityDatasource {
   Future<List<FileCategoryModel>> getCategories() async {
     try {
       final db = await database;
-      // final list = await db.rawQuery('SELECT * FROM ${AppDatabase.fileCategoryTable}');
       final list = await db.query(AppDatabase.fileCategoryTable);
       List<FileCategoryModel> modelList = [];
 

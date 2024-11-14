@@ -171,5 +171,10 @@
     "fieldRequired": "Kichwa cha kutafuta",
     "invalidPhoneNumber": "Namba ya simu siwezi",
     "noInternetConnection": "No internet connection",
-    "retry": "Reintentar"
+    "retry": "Reintentar",
+    "alreadyAmember": "Yaweza kuingia?",
+    "notAmember": "Hakuna kuingia?",
+    "microsoftSignInFailed": "Kuingia na Microsoft imetokea",
+    "areYouSureYouWantToJoinThisCommunity": "Hakuna kuingia?",
+    "areYouSureYouWantToLeaveThisCommunity": "Hakuna kuingia?"
 }

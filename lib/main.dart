@@ -7,6 +7,7 @@ import 'package:khub_mobile/cache/preferences_datasource.dart';
 import 'package:khub_mobile/firebase_options.dart';
 import 'package:khub_mobile/providers/locale_provider.dart';
 import 'package:khub_mobile/repository/color_theme_repository.dart';
+import 'package:khub_mobile/services/microsoft_auth_service.dart';
 import 'package:khub_mobile/ui/elements/countries/countries_search_view_model.dart';
 import 'package:khub_mobile/ui/elements/jobs/jobs_view_model.dart';
 import 'package:khub_mobile/ui/elements/loading_view.dart';
@@ -230,6 +231,9 @@ void main() async {
     LOGGER.e(e);
   }
 
+  // Initialize Microsoft Auth Service
+  MicrosoftAuthService().initialize(getIt<GlobalKey<NavigatorState>>());
+
   runApp(RestartWidget(localeProvider: localeProvider));
 }
 
@@ -293,7 +297,7 @@ class _RestartWidgetState extends State<RestartWidget> {
               child: MyApp(themeData: snapshot.data!),
             );
           }
-          return const MaterialApp(
+          return MaterialApp(
               debugShowCheckedModeBanner: false,
               home: Scaffold(body: Center(child: LoadingView())));
         },
@@ -317,7 +321,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<HomeViewModel>(
             create: (_) => HomeViewModel(getIt(), getIt())),
         ChangeNotifierProvider<RecommendedPublicationViewModel>(
-            create: (_) => RecommendedPublicationViewModel(getIt(), getIt())),
+            create: (_) =>
+                RecommendedPublicationViewModel(getIt(), getIt(), getIt())),
         ChangeNotifierProvider<SearchViewModel>(
             create: (_) => SearchViewModel(getIt(), getIt(), getIt())),
         ChangeNotifierProvider<ThemeViewModel>(
@@ -353,7 +358,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<CreateForumViewModel>(
             create: (_) => CreateForumViewModel(forumRepository: getIt())),
         ChangeNotifierProvider<TopSearchesViewModel>(
-            create: (_) => TopSearchesViewModel(getIt(), getIt())),
+            create: (_) => TopSearchesViewModel(getIt(), getIt(), getIt())),
         ChangeNotifierProvider<AiViewModel>(
             create: (_) => AiViewModel(getIt(), getIt())),
         ChangeNotifierProvider<MyFavoritesViewModel>(

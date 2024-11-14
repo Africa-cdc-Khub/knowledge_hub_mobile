@@ -30,6 +30,8 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
     const String countrySymbol = 'USD';
     return Container(
         color: Colors.white,
+        width: double.infinity,
+        height: double.infinity,
         padding: const EdgeInsets.only(bottom: 0),
         child: Stack(children: [
           SingleChildScrollView(
@@ -41,20 +43,25 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                   widget.event.bannerImage,
                   height: 400,
                   fit: BoxFit.cover,
+                  width: double.infinity,
                   loadingBuilder: (BuildContext context, Widget child,
                       ImageChunkEvent? loadingProgress) {
                     if (loadingProgress == null) {
                       return child;
                     } else {
-                      return Image.asset('assets/images/placeholder.jpg',
-                          height: 400, fit: BoxFit.cover);
+                      return Image.asset(
+                        'assets/images/placeholder.jpg',
+                        height: 400,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      );
                     }
                   },
                   errorBuilder: (BuildContext context, Object exception,
                       StackTrace? stackTrace) {
                     // Display a placeholder image when the remote image fails to load
                     return Image.asset('assets/images/placeholder.jpg',
-                        height: 400, fit: BoxFit.cover);
+                        height: 400, fit: BoxFit.cover, width: double.infinity);
                   },
                 ),
                 Container(
@@ -107,17 +114,20 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                                 AssetImage('assets/images/default_user.jpg'),
                           ),
                           xSpacer(8),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.event.organizedBy,
-                                style: const TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.w500),
-                              ),
-                              Text(widget.event.contactPerson)
-                            ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.event.organizedBy,
+                                  style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Text(widget.event.contactPerson)
+                              ],
+                            ),
                           )
                         ],
                       ),

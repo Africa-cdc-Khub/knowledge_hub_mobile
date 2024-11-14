@@ -171,5 +171,10 @@
     "fieldRequired": "مطلوب الحقل",
     "invalidPhoneNumber": "رقم الهاتف غير موجود",
     "noInternetConnection": "لا يوجد إنترنت",
-    "retry": "إعادة المحاولة"
+    "retry": "إعادة المحاولة",
+    "alreadyAmember": "هل أنت مسجل؟",
+    "notAmember": "لم يتم تسجيل الدخول",
+    "microsoftSignInFailed": "فشل تسجيل الدخول بواسطة مايكروسوفت",
+    "areYouSureYouWantToJoinThisCommunity": "هل أنت متأكد أنك تريد الإنضمام إلى هذا المجتمع؟",
+    "areYouSureYouWantToLeaveThisCommunity": "هل أنت متأكد أنك تريد الخروج من هذا المجتمع؟"
 }

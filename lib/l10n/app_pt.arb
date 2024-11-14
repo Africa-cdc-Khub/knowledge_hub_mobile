@@ -171,5 +171,10 @@
     "fieldRequired": "Campo requerido",
     "invalidPhoneNumber": "Número de telefone inválido",
     "noInternetConnection": "No internet connection",
-    "retry": "Reintentar"
+    "retry": "Reintentar",
+    "alreadyAmember": "Já é um membro?",
+    "notAmember": "Não é um membro?",
+    "microsoftSignInFailed": "Connexion avec Microsoft échouée",
+    "areYouSureYouWantToJoinThisCommunity": "Tem certeza de que deseja se juntar a esta comunidade?",
+    "areYouSureYouWantToLeaveThisCommunity": "Tem certeza de que deseja deixar esta comunidade?"
 }
