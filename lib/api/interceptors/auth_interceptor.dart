@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:khub_mobile/api/config/config.dart';
+import 'package:khub_mobile/api/config/env_config.dart';
 import 'package:khub_mobile/cache/preferences_datasource.dart';
 import 'package:khub_mobile/injection_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -124,7 +124,7 @@ class AuthInterceptor extends Interceptor {
     pref = await SharedPreferences.getInstance();
     final savedUrl = pref.getString(PreferencesDatasource.baseUrlKey);
 
-    return savedUrl ?? EnvConfig().baseUrl;
+    return savedUrl ?? EnvConfig.baseUrl;
   }
 
   Future<void> deleteSavedToken() async {

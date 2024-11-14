@@ -1,4 +1,4 @@
-import 'package:khub_mobile/api/config/config.dart';
+import 'package:khub_mobile/api/config/env_config.dart';
 import 'package:khub_mobile/api/controllers/api_client.dart';
 import 'package:khub_mobile/api/models/courses/courses_api_model.dart';
 import 'package:khub_mobile/api/models/data_state.dart';

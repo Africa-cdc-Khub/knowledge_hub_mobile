@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:khub_mobile/api/config/config.dart';
+import 'package:khub_mobile/api/config/env_config.dart';
 import 'package:khub_mobile/cache/preferences_datasource.dart';
 import 'package:khub_mobile/cache/utility_datasource.dart';
 import 'package:khub_mobile/injection_container.dart';
@@ -59,7 +59,7 @@ class KnowledgeHubViewModel extends ChangeNotifier with SafeNotifier {
             KnowledgeHubModel(
                 id: 10000,
                 name: 'Africa CDC',
-                baseUrl: EnvConfig().baseUrl,
+                baseUrl: EnvConfig.baseUrl,
                 isActive: true));
 
         final savedActiveHubId = preferencesDatasource

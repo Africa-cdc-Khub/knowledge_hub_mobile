@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:khub_mobile/api/config/config.dart';
+import 'package:khub_mobile/api/config/env_config.dart';
 import 'package:khub_mobile/main.dart';
 import 'package:khub_mobile/ui/elements/dialogs/info_dialog.dart';
 import 'package:khub_mobile/ui/elements/spacers.dart';
