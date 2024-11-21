@@ -50,7 +50,7 @@
     "search": "Buscar",
     "recommended": "Recomendado",
     "moreDotted": "Más...",
-    "resourceCategories": "Categorías de recursos",
+    "resourceCategories": "Categorías de datos",
     "topSearches": "Búsquedas principales",
     "home": "Inicio",
     "forums": "Foros",
@@ -176,5 +176,7 @@
     "notAmember": "¿No es miembro?",
     "microsoftSignInFailed": "Inicio de sesión con Microsoft falló",
     "areYouSureYouWantToJoinThisCommunity": "¿Estás seguro de que quieres unirte a esta comunidad?",
-    "areYouSureYouWantToLeaveThisCommunity": "¿Estás seguro de que quieres dejar esta comunidad?"
+    "areYouSureYouWantToLeaveThisCommunity": "¿Estás seguro de que quieres dejar esta comunidad?",
+    "completeRegistration": "Completar registro",
+    "viewAll": "Ver todos"
 }

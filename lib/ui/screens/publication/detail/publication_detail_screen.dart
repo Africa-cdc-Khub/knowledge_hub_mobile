@@ -536,7 +536,10 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
   }
 
   _likePublication(int publicationId) async {
-    await viewModel.addFavorite(publicationId);
+    final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+    if (authViewModel.state.isLoggedIn) {
+      await viewModel.addFavorite(publicationId);
+    }
   }
 
   void _showAISummarize(

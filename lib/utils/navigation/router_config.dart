@@ -11,6 +11,7 @@ import 'package:khub_mobile/ui/screens/account/profile/profile_screen.dart';
 import 'package:khub_mobile/ui/screens/ai/compare/compare_screen.dart';
 import 'package:khub_mobile/ui/screens/auth/forgotPassword/forgot_password_screen.dart';
 import 'package:khub_mobile/ui/screens/auth/login/login_screen.dart';
+import 'package:khub_mobile/ui/screens/auth/signup/complete_registration_screen.dart';
 import 'package:khub_mobile/ui/screens/auth/signup/signup_screen.dart';
 import 'package:khub_mobile/ui/screens/communities/communities_screen.dart';
 import 'package:khub_mobile/ui/screens/communities/detail/community_detail_screen.dart';
@@ -431,7 +432,26 @@ class AppRouter {
           name: signUp,
           path: '/$signUp',
           pageBuilder: (context, state) => CustomTransitionPage(
-            child: const SignUpScreen(),
+            child: SignUpScreen(signupState: state.extra as SignupScreenState?),
+            transitionsBuilder: (BuildContext context,
+                    Animation<double> animation,
+                    Animation<double> secondaryAnimation,
+                    Widget child) =>
+                FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          ),
+        ),
+
+        // COMPLETE REGISTRATION
+        GoRoute(
+          name: completeRegistration,
+          path: '/$completeRegistration',
+          pageBuilder: (context, state) => CustomTransitionPage(
+            child: CompleteRegistrationScreen(
+                completeRegistrationState:
+                    state.extra as CompleteRegistrationScreenState?),
             transitionsBuilder: (BuildContext context,
                     Animation<double> animation,
                     Animation<double> secondaryAnimation,

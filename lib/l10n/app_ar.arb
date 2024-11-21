@@ -50,7 +50,7 @@
     "search": "بحث",
     "recommended": "موصى به",
     "moreDotted": "المزيد...",
-    "resourceCategories": "فئات الموارد",
+    "resourceCategories": "فئات البيانات",
     "topSearches": "عمليات البحث الأكثر شيوعًا",
     "home": "الرئيسية",
     "forums": "المنتديات",
@@ -176,5 +176,7 @@
     "notAmember": "لم يتم تسجيل الدخول",
     "microsoftSignInFailed": "فشل تسجيل الدخول بواسطة مايكروسوفت",
     "areYouSureYouWantToJoinThisCommunity": "هل أنت متأكد أنك تريد الإنضمام إلى هذا المجتمع؟",
-    "areYouSureYouWantToLeaveThisCommunity": "هل أنت متأكد أنك تريد الخروج من هذا المجتمع؟"
+    "areYouSureYouWantToLeaveThisCommunity": "هل أنت متأكد أنك تريد الخروج من هذا المجتمع؟",
+    "completeRegistration": "إتمام التسجيل",
+    "viewAll": "عرض الكل"
 }

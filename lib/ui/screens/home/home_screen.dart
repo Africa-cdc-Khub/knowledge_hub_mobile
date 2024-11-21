@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 14.0),
               child: homeLabel(context,
                   title: context.localized.recommended,
-                  actionLabel: context.localized.moreDotted, onClick: () {
+                  actionLabel: context.localized.viewAll, onClick: () {
                 context.pushNamed(publicationList,
                     extra: PublicationListScreenState(
                         listType: 1, title: context.localized.recommended));
@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const EdgeInsets.only(left: 14.0, right: 14.0, top: 16),
                 child: homeLabel(context,
                     title: context.localized.topSearches,
-                    actionLabel: context.localized.moreDotted, onClick: () {
+                    actionLabel: context.localized.viewAll, onClick: () {
                   context.pushNamed(publicationList,
                       extra: PublicationListScreenState(
                           listType: 2, title: context.localized.topSearches));

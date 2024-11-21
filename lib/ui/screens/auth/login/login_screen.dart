@@ -46,19 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   final provider = Provider.of<LoginViewModel>(context);
-  //
-  //   // Use post-frame callback to trigger navigation
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     if (provider.state.token.isNotEmpty) {
-  //       context.pushNamed(home);
-  //     }
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     viewModel = Provider.of<LoginViewModel>(context, listen: false);
@@ -88,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: const TextStyle(
                           fontWeight: FontWeight.w700, fontSize: 32),
                     ),
-                    ySpacer(50),
+                    ySpacer(30),
                     editTextLabel(context.localized.email),
                     EditTextField(
                       containerColor: MainTheme.appColors.white200,
@@ -97,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         return Validator.required(value);
                       },
                     ),
-                    ySpacer(20),
+                    ySpacer(14),
                     editTextLabel(context.localized.password),
                     EditTextField(
                       obscureText: true,
@@ -128,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-                    ySpacer(50),
+                    ySpacer(35),
                     CustomButton(
                         width: double.infinity,
                         loading: _loading,
@@ -142,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: const TextStyle(color: Colors.white),
                         )),
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: SocialLoginButtons(
                         onGoogleSignIn: _handleGoogleSignIn,
                         onMicrosoftSignIn: _handleMicrosoftSignIn,

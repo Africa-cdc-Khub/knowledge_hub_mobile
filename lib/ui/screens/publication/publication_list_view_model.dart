@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:khub_mobile/api/config/env_config.dart';
 import 'package:khub_mobile/api/models/data_state.dart';
+import 'package:khub_mobile/injection_container.dart';
 import 'package:khub_mobile/repository/connection_repository.dart';
 import 'package:khub_mobile/repository/publication_repository.dart';
 import 'package:khub_mobile/models/publication_model.dart';
@@ -40,6 +41,25 @@ class PublicationListViewModel extends ChangeNotifier with SafeNotifier {
       safeNotifyListeners();
     }
     return isConnected;
+  }
+
+  Future<void> addFavorite(int publicationId) async {
+    try {
+      if (state._publications.isNotEmpty) {
+        // Find and update the publication's favorite status
+        final index =
+            state._publications.indexWhere((pub) => pub.id == publicationId);
+        if (index != -1) {
+          state._publications[index].isFavourite = true;
+          safeNotifyListeners();
+        }
+
+        await publicationRepository.addFavoritePublication(
+            publicationId: publicationId);
+      }
+    } on Exception catch (e) {
+      LOGGER.e(e);
+    }
   }
 
   Future<void> fetchPublications(

@@ -5,12 +5,14 @@ import 'package:khub_mobile/ui/elements/spacers.dart';
 import 'package:khub_mobile/models/publication_model.dart';
 import 'package:khub_mobile/themes/main_theme.dart';
 import 'package:khub_mobile/utils/helpers.dart';
+import 'package:khub_mobile/utils/l10n_extensions.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class PublicationItem extends StatelessWidget {
   final PublicationModel model;
   final bool isVerticalItem;
   final VoidCallback? onClick;
+  final VoidCallback? onLike;
   final double? borderRadius;
   final bool? isMyPublication; // New parameter
 
@@ -18,6 +20,7 @@ class PublicationItem extends StatelessWidget {
     super.key,
     required this.model,
     this.onClick,
+    this.onLike,
     required this.isVerticalItem,
     this.borderRadius,
     this.isMyPublication, // Add this line
@@ -146,7 +149,7 @@ class PublicationItem extends StatelessWidget {
                     thickness: 0.5,
                   ),
                 ),
-                _bottomInfo(model, isVerticalItem)
+                _bottomInfo(context, model, isVerticalItem, onLike)
               ],
             );
           }
@@ -247,7 +250,8 @@ class PublicationItem extends StatelessWidget {
     );
   }
 
-  Widget _bottomInfo(PublicationModel model, bool isVerticalItem) {
+  Widget _bottomInfo(BuildContext context, PublicationModel model,
+      bool isVerticalItem, VoidCallback? onLike) {
     final double defaultSize = isVerticalItem ? 20 : 20;
     final comments = model.comments?.where((item) => item.status == 'approved');
 
@@ -286,18 +290,23 @@ class PublicationItem extends StatelessWidget {
             ],
           ),
           isVerticalItem
-              ? Row(
-                  children: [
-                    Icon(
-                      model.isFavourite
-                          ? Icons.favorite
-                          : Icons.favorite_outline,
-                      size: defaultSize,
-                      color: MainTheme.appColors.neutral700,
-                    ),
-                    xSpacer(4.0),
-                    Text(model.isFavourite ? 'Unlike' : 'Like')
-                  ],
+              ? InkWell(
+                  onTap: onLike ?? () {},
+                  child: Row(
+                    children: [
+                      Icon(
+                        model.isFavourite
+                            ? Icons.favorite
+                            : Icons.favorite_outline,
+                        size: defaultSize,
+                        color: MainTheme.appColors.neutral700,
+                      ),
+                      xSpacer(4.0),
+                      Text(model.isFavourite
+                          ? context.localized.unlike
+                          : context.localized.like)
+                    ],
+                  ),
                 )
               : const SizedBox.shrink()
         ],

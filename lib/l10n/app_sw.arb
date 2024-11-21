@@ -50,7 +50,7 @@
     "search": "Tafuta",
     "recommended": "Pendekezo",
     "moreDotted": "Zaidi...",
-    "resourceCategories": "Aina za rasilimali",
+    "resourceCategories": "Kategoria za rasilimali",
     "topSearches": "Utafutaji maarufu",
     "home": "Nyumbani",
     "forums": "Majukwaa",
@@ -176,5 +176,7 @@
     "notAmember": "Hakuna kuingia?",
     "microsoftSignInFailed": "Kuingia na Microsoft imetokea",
     "areYouSureYouWantToJoinThisCommunity": "Hakuna kuingia?",
-    "areYouSureYouWantToLeaveThisCommunity": "Hakuna kuingia?"
+    "areYouSureYouWantToLeaveThisCommunity": "Hakuna kuingia?",
+    "completeRegistration": "Kumbuka kuingia",
+    "viewAll": "Tazama zote"
 }

@@ -16,6 +16,8 @@ import 'package:khub_mobile/ui/elements/preferences/preferences_list_search.dart
 import 'package:khub_mobile/ui/elements/spacers.dart';
 import 'package:khub_mobile/ui/elements/textFields/edit_text_field.dart';
 import 'package:khub_mobile/ui/main_view_model.dart';
+import 'package:khub_mobile/ui/screens/auth/auth_view_model.dart';
+import 'package:khub_mobile/ui/screens/auth/signup/complete_registration_screen.dart';
 import 'package:khub_mobile/ui/screens/auth/signup/signup_view_model.dart';
 import 'package:khub_mobile/ui/screens/success/success_screen.dart';
 import 'package:khub_mobile/utils/alert_utils.dart';
@@ -26,8 +28,18 @@ import 'package:khub_mobile/utils/validator.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
+class SignupScreenState {
+  final bool? isSocialSignup;
+  final Map<String, dynamic>? socialSignupData;
+  final String? title;
+
+  SignupScreenState({this.isSocialSignup, this.socialSignupData, this.title});
+}
+
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+  final SignupScreenState? signupState;
+
+  const SignUpScreen({super.key, this.signupState});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -36,13 +48,12 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _signupFormKey = GlobalKey<FormState>();
 
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  late TextEditingController _firstNameController;
+  late TextEditingController _lastNameController;
+  late TextEditingController _phoneController;
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+  late TextEditingController _confirmPasswordController;
 
   late SignupViewModel viewModel;
   late MainViewModel mainViewModel;
@@ -54,10 +65,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String _errors = '';
   bool _loading = false;
 
+  bool _hasSocialSignup = false;
+  bool _hasSocialEmail = false;
+  bool _hasSocialFirstName = false;
+  bool _hasSocialLastName = false;
+
   @override
   void initState() {
     viewModel = Provider.of<SignupViewModel>(context, listen: false);
 
+    _firstNameController = TextEditingController();
+    _lastNameController = TextEditingController();
+    _phoneController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+
+    if (widget.signupState != null &&
+        widget.signupState?.socialSignupData != null) {
+      _hasSocialSignup = true;
+      String firstName =
+          widget.signupState?.socialSignupData?['firstName'] ?? '';
+      String lastName = widget.signupState?.socialSignupData?['lastName'] ?? '';
+      String email = widget.signupState?.socialSignupData?['email'] ?? '';
+
+      _hasSocialFirstName = firstName.isNotEmpty;
+      _hasSocialLastName = lastName.isNotEmpty;
+      _hasSocialEmail = email.isNotEmpty;
+
+      _firstNameController.text = firstName;
+      _lastNameController.text = lastName;
+      _emailController.text = email;
+    }
     super.initState();
   }
 
@@ -86,7 +125,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: 90.0,
                     ),
                     Text(
-                      context.localized.register,
+                      widget.signupState?.title ?? context.localized.register,
                       style: const TextStyle(
                           fontWeight: FontWeight.w700, fontSize: 32),
                     ),
@@ -96,6 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       containerColor: MainTheme.appColors.white200,
                       textController: _firstNameController,
                       keyboardType: TextInputType.name,
+                      isEditable: !_hasSocialFirstName,
                       validator: (value) {
                         return Validator.required(value);
                       },
@@ -105,6 +145,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     EditTextField(
                       containerColor: MainTheme.appColors.white200,
                       textController: _lastNameController,
+                      isEditable: !_hasSocialLastName,
                       keyboardType: TextInputType.name,
                       validator: (value) {
                         return Validator.required(value);
@@ -117,6 +158,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       textHint: '',
                       textController: _emailController,
                       keyboardType: TextInputType.emailAddress,
+                      isEditable: !_hasSocialEmail,
                       validator: (value) {
                         return Validator.validateEmail(value);
                       },
@@ -337,13 +379,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           context.localized.register,
                           style: const TextStyle(color: Colors.white),
                         )),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: SocialLoginButtons(
-                        onGoogleSignIn: () {},
-                        onMicrosoftSignIn: () {},
-                      ),
-                    ),
+                    widget.signupState != null &&
+                            widget.signupState?.isSocialSignup == true
+                        ? const SizedBox.shrink()
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: SocialLoginButtons(
+                              onGoogleSignIn: _handleGoogleSignIn,
+                              onMicrosoftSignIn: _handleMicrosoftSignIn,
+                            ),
+                          ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -443,6 +488,54 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 type: 'register',
                 message: context.localized.accountCreatedSuccessfully));
       }
+    }
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    setState(() {
+      _loading = true;
+    });
+
+    final state =
+        await Provider.of<AuthViewModel>(context, listen: false).googleSignIn();
+
+    setState(() {
+      _loading = false;
+    });
+
+    if (!mounted) return;
+    if (!state.isSuccess) {
+      AlertUtils.showError(context: context, errorMessage: state.errorMessage);
+    } else {
+      String? names = state.userDetails['name'];
+      if (names != null && names.isNotEmpty) {
+        Map<String, String> extractedNames = Helpers.extractNames(names);
+        state.userDetails['firstName'] = extractedNames['firstName'];
+        state.userDetails['lastName'] = extractedNames['lastName'];
+      }
+
+      LOGGER.d(state.userDetails);
+      context.pushNamed(completeRegistration,
+          extra: CompleteRegistrationScreenState(
+              isSocialSignup: true, socialSignupData: state.userDetails));
+    }
+  }
+
+  Future<void> _handleMicrosoftSignIn() async {
+    setState(() {
+      _loading = true;
+    });
+
+    final state = await Provider.of<AuthViewModel>(context, listen: false)
+        .microsoftSignIn();
+
+    setState(() {
+      _loading = false;
+    });
+    if (!state.isSuccess && mounted) {
+      AlertUtils.showError(context: context, errorMessage: state.errorMessage);
+    } else {
+      LOGGER.d(state.userDetails);
     }
   }
 
