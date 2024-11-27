@@ -59,13 +59,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late MainViewModel mainViewModel;
 
   String _selectedJob = '';
-  String _selectedCountry = '';
+  String _selectedCountryName = '';
+  int _selectedCountryId = 0;
   final List<OptionItemModel> _selectedPreferences = [];
   bool _termsChecked = false;
   String _errors = '';
   bool _loading = false;
 
-  bool _hasSocialSignup = false;
   bool _hasSocialEmail = false;
   bool _hasSocialFirstName = false;
   bool _hasSocialLastName = false;
@@ -83,7 +83,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if (widget.signupState != null &&
         widget.signupState?.socialSignupData != null) {
-      _hasSocialSignup = true;
       String firstName =
           widget.signupState?.socialSignupData?['firstName'] ?? '';
       String lastName = widget.signupState?.socialSignupData?['lastName'] ?? '';
@@ -211,7 +210,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       onTap: () {
                         _showCountries();
                       },
-                      value: _selectedCountry,
+                      value: _selectedCountryName,
                     ),
                     ySpacer(14),
                     editTextLabel(context.localized.jobTitle),
@@ -355,7 +354,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 _errors =
                                     context.localized.agreeToTermsAndConditions;
                               });
-                            } else if (_selectedCountry.isEmpty) {
+                            } else if (_selectedCountryName.isEmpty) {
                               setState(() {
                                 _errors =
                                     context.localized.pleaseSelectACountry;
@@ -450,7 +449,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     LOGGER.d({
       'first_name': _firstNameController.text,
       'last_name': _lastNameController.text,
-      'country_id': _selectedCountry,
+      'country_id': _selectedCountryId,
       'job': _selectedJob,
       'phone_number': _phoneController.text.replaceAll(RegExp(r'[^\d+]'), ''),
       'preferences':
@@ -468,7 +467,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         confirmPassword: _confirmPasswordController.text,
         phoneNumber: _phoneController.text.replaceAll(RegExp(r'[^\d+]'), ''),
         job: _selectedJob,
-        countryId: int.parse(_selectedCountry),
+        countryId: _selectedCountryId,
         preferences:
             _selectedPreferences.map((item) => int.parse(item.id)).toList());
 
@@ -592,7 +591,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: CountriesListSearch(
                 onCountrySelected: (CountryModel country) {
                   setState(() {
-                    _selectedCountry = country.name;
+                    _selectedCountryId = country.id;
+                    _selectedCountryName = country.name;
                     _errors = '';
                   });
                   Navigator.pop(context);

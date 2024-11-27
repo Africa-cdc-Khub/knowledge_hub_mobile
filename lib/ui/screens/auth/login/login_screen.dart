@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:khub_mobile/injection_container.dart';
 import 'package:khub_mobile/main.dart';
+import 'package:khub_mobile/models/user_model.dart';
 import 'package:khub_mobile/themes/main_theme.dart';
 import 'package:khub_mobile/ui/elements/buttons/social_login_buttons.dart';
 import 'package:khub_mobile/ui/elements/custom_button.dart';
@@ -11,7 +11,9 @@ import 'package:khub_mobile/ui/elements/spacers.dart';
 import 'package:khub_mobile/ui/elements/textFields/edit_text_field.dart';
 import 'package:khub_mobile/ui/screens/auth/auth_view_model.dart';
 import 'package:khub_mobile/ui/screens/auth/login/login_view_model.dart';
+import 'package:khub_mobile/ui/screens/auth/signup/complete_registration_screen.dart';
 import 'package:khub_mobile/utils/alert_utils.dart';
+import 'package:khub_mobile/utils/helpers.dart';
 import 'package:khub_mobile/utils/l10n_extensions.dart';
 import 'package:khub_mobile/utils/navigation/route_names.dart';
 import 'package:khub_mobile/utils/validator.dart';
@@ -234,6 +236,26 @@ class _LoginScreenState extends State<LoginScreen> {
       AlertUtils.showError(context: context, errorMessage: state.errorMessage);
     } else {
       LOGGER.d(state.userDetails);
+      await _socialSignin(state.userDetails);
+    }
+  }
+
+  Future<void> _socialSignin(Map<String, dynamic> payload) async {
+    final state = await viewModel.socialLogin(payload);
+
+    if (!mounted) return;
+
+    if (state.isSuccess) {
+      LOGGER.d('Login success');
+      UserModel user = state.user!;
+
+      if (user.country == null) {
+        _goToCompleteRegistration(context, payload);
+      } else {
+        _handleCompleteLogin();
+      }
+    } else {
+      AlertUtils.showError(context: context, errorMessage: state.errorMessage);
     }
   }
 
@@ -248,20 +270,34 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _loading = false;
     });
+
     if (!state.isSuccess && mounted) {
       AlertUtils.showError(context: context, errorMessage: state.errorMessage);
     } else {
       LOGGER.d(state.userDetails);
+      await _socialSignin(state.userDetails);
     }
   }
 
-  void _handleLoginSuccess(LoginState state) {
-    if (!state.isSuccess && mounted) {
-      AlertUtils.showError(context: context, errorMessage: state.errorMessage);
-    } else if (mounted) {
-      Provider.of<AuthViewModel>(context, listen: false).checkLoginStatus();
-      Provider.of<AuthViewModel>(context, listen: false).getCurrentUser();
-      RestartWidget.restartApp(context);
+  void _goToCompleteRegistration(
+      BuildContext context, Map<String, dynamic> payload) {
+    String? names = payload['name'];
+    if (names != null && names.isNotEmpty) {
+      Map<String, String> extractedNames = Helpers.extractNames(names);
+      payload['firstName'] = extractedNames['firstName'];
+      payload['lastName'] = extractedNames['lastName'];
     }
+
+    context.pushNamed(completeRegistration,
+        extra: CompleteRegistrationScreenState(
+            isSocialSignup: true, socialSignupData: payload));
+  }
+
+  void _handleCompleteLogin() {
+    Provider.of<AuthViewModel>(context, listen: false).checkLoginStatus();
+    Provider.of<AuthViewModel>(context, listen: false).getCurrentUser();
+
+    //  to restart app
+    RestartWidget.restartApp(context);
   }
 }

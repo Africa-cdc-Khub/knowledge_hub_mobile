@@ -210,16 +210,14 @@ class _APIClient implements APIClient {
       ));
     }
     if (cover != null) {
-      if (cover != null) {
-        _data.files.add(MapEntry(
-          'cover',
-          MultipartFile.fromFileSync(
-            cover.path,
-            filename: cover.path.split(Platform.pathSeparator).last,
-            contentType: MediaType.parse('image/jpeg'),
-          ),
-        ));
-      }
+      _data.files.add(MapEntry(
+        'cover',
+        MultipartFile.fromFileSync(
+          cover.path,
+          filename: cover.path.split(Platform.pathSeparator).last,
+          contentType: MediaType.parse('image/jpeg'),
+        ),
+      ));
     }
     final _options = _setStreamType<dynamic>(Options(
       method: 'POST',
@@ -716,16 +714,14 @@ class _APIClient implements APIClient {
       description,
     ));
     if (image != null) {
-      if (image != null) {
-        _data.files.add(MapEntry(
-          'image',
-          MultipartFile.fromFileSync(
-            image.path,
-            filename: image.path.split(Platform.pathSeparator).last,
-            contentType: MediaType.parse('image/jpeg'),
-          ),
-        ));
-      }
+      _data.files.add(MapEntry(
+        'image',
+        MultipartFile.fromFileSync(
+          image.path,
+          filename: image.path.split(Platform.pathSeparator).last,
+          contentType: MediaType.parse('image/jpeg'),
+        ),
+      ));
     }
     final _options = _setStreamType<dynamic>(Options(
       method: 'POST',

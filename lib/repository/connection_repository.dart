@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:khub_mobile/injection_container.dart';
 
 abstract class ConnectionRepository {
   Future<bool> checkInternetStatus();

@@ -4,7 +4,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:khub_mobile/injection_container.dart';
 import 'package:khub_mobile/models/user_model.dart';
 import 'package:khub_mobile/repository/auth_repository.dart';
-import 'package:khub_mobile/services/microsoft_auth_service.dart';
 import 'package:khub_mobile/ui/providers/safe_notifier.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -74,21 +73,35 @@ class AuthViewModel extends ChangeNotifier with SafeNotifier {
 
   Future<AuthState> microsoftSignIn() async {
     try {
-      final result = await MicrosoftAuthService().oauth.login();
+      final provider = OAuthProvider("microsoft.com");
+      Map<String, String> parameters = {"tenant": "common", "prompt": "login"};
+      provider.setCustomParameters(parameters);
 
-      return result.fold(
-        (error) {
-          LOGGER.e(error);
-          return AuthState.error(false, error.message);
-        },
-        (token) async {
-          LOGGER.d('Token: ${token.accessToken}');
-          final result = await fetchAzureUserDetails(token.accessToken!);
-          result['provider'] = 'microsoft';
-          LOGGER.d(result);
-          return AuthState.microsoftSignIn(true, result);
-        },
-      );
+      provider.addScope("email");
+      provider.addScope("profile");
+      provider.addScope("openid");
+      provider.addScope("offline_access");
+
+      // Sign in with Firebase using the microsoft provider
+      final credential =
+          await FirebaseAuth.instance.signInWithProvider(provider);
+      final credentialUser = credential.user;
+      if (credentialUser == null) {
+        return AuthState.error(false, 'Microsoft sign in failed');
+      }
+      final user = {
+        'accessToken': credential.credential!.accessToken,
+        'idToken': credential.credential!.token,
+        'email': credentialUser.email,
+        'name': credentialUser.displayName,
+        'photoUrl': credentialUser.photoURL,
+        'providerId': credential.credential!.providerId,
+        'provider': 'microsoft',
+      };
+
+      LOGGER.d('Microsoft login: ');
+      LOGGER.d(credential);
+      return AuthState.googleSignIn(true, user);
     } catch (error) {
       LOGGER.e(error);
       return AuthState.error(false, 'Microsoft sign in failed');

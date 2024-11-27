@@ -8,6 +8,7 @@ import 'package:khub_mobile/ui/elements/search_bar.dart';
 import 'package:khub_mobile/ui/elements/spacers.dart';
 import 'package:khub_mobile/models/search_type_enum.dart';
 import 'package:khub_mobile/ui/main_view_model.dart';
+import 'package:khub_mobile/ui/screens/account/profile/profile_view_model.dart';
 import 'package:khub_mobile/ui/screens/auth/auth_view_model.dart';
 import 'package:khub_mobile/ui/screens/events/events_list.dart';
 import 'package:khub_mobile/ui/screens/events/events_view_model.dart';
@@ -243,6 +244,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
           return InkWell(
             onTap: () {
+              Provider.of<ProfileViewModel>(context, listen: false)
+                  .getCurrentUser();
               context.pushNamed(profile);
             },
             child: SizedBox(

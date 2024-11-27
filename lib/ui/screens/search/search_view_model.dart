@@ -11,7 +11,6 @@ import 'package:khub_mobile/ui/providers/safe_notifier.dart';
 
 class SearchState {
   bool _loading = false;
-  bool _loadingMore = false;
   String _errorMessage = '';
   int _currentPage = EnvConfig.startPage;
   int _totalPages = 1;
@@ -93,8 +92,6 @@ class SearchViewModel extends ChangeNotifier with SafeNotifier {
 
   Future<void> loadMorePublications({String searchTerm = ''}) async {
     if (state._currentPage < state._totalPages && !state._isEndOfPage) {
-      state._loadingMore = true;
-
       try {
         final isConnected = await _checkInternetConnection();
         if (!isConnected) {
@@ -123,7 +120,6 @@ class SearchViewModel extends ChangeNotifier with SafeNotifier {
       } on Exception catch (err) {
         LOGGER.e(err);
       } finally {
-        state._loadingMore = false;
         safeNotifyListeners();
       }
     }
@@ -171,7 +167,6 @@ class SearchViewModel extends ChangeNotifier with SafeNotifier {
 
   Future<void> loadMoreForums({String searchTerm = ''}) async {
     if (state._currentPage < state._totalPages && !state._isEndOfPage) {
-      state._loadingMore = true;
       try {
         final isConnected = await _checkInternetConnection();
         if (!isConnected) {
@@ -202,7 +197,6 @@ class SearchViewModel extends ChangeNotifier with SafeNotifier {
       } on Exception catch (err) {
         LOGGER.e(err);
       } finally {
-        state._loadingMore = false;
         safeNotifyListeners();
       }
     }

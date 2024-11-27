@@ -5,7 +5,6 @@ import 'package:http_parser/http_parser.dart';
 import 'package:khub_mobile/api/models/responses/ProfileResponse.dart';
 import 'package:khub_mobile/api/models/token/token_api_model.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:retrofit/http.dart';
 
 part 'auth_client.g.dart';
 
@@ -54,4 +53,7 @@ abstract class AuthClient {
       @Part(name: 'password_confirmation') required String confirmPassword,
       @Part(name: 'preferences') required String preferences,
       @Part(name: 'photo', contentType: 'image/jpeg') File? profilePhoto});
+
+  @POST('/api/social-login')
+  Future<TokenApiModel> socialLogin(@Body() Map<String, dynamic> request);
 }
