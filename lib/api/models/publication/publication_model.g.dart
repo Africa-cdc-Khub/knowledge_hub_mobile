@@ -53,6 +53,7 @@ PublicationApiModel _$PublicationApiModelFromJson(Map<String, dynamic> json) =>
       json['category'] == null
           ? null
           : CategoryApiModel.fromJson(json['category'] as Map<String, dynamic>),
+      json['show_disclaimer'] as bool?,
     );
 
 Map<String, dynamic> _$PublicationApiModelToJson(
@@ -89,4 +90,5 @@ Map<String, dynamic> _$PublicationApiModelToJson(
       'author': instance.author,
       'sub_theme': instance.sub_theme,
       'category': instance.category,
+      'show_disclaimer': instance.show_disclaimer,
     };

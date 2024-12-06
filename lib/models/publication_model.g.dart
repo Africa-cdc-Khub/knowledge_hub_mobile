@@ -51,6 +51,7 @@ PublicationModel _$PublicationModelFromJson(Map<String, dynamic> json) =>
       category: json['category'] == null
           ? null
           : CategoryModel.fromJson(json['category'] as Map<String, dynamic>),
+      showDisclaimer: json['showDisclaimer'] as bool,
     );
 
 Map<String, dynamic> _$PublicationModelToJson(PublicationModel instance) =>
@@ -86,4 +87,5 @@ Map<String, dynamic> _$PublicationModelToJson(PublicationModel instance) =>
       'author': instance.author,
       'subTheme': instance.subTheme,
       'category': instance.category,
+      'showDisclaimer': instance.showDisclaimer,
     };

@@ -181,7 +181,10 @@ final List<String> migrations = [
     type INTEGER,
     content TEXT
   );
+  ''',
   '''
+  ALTER TABLE ${AppDatabase.userSettingsTable} ADD COLUMN contentDisclaimer TEXT DEFAULT '';
+  ''',
 ];
 
 class AppDatabase {

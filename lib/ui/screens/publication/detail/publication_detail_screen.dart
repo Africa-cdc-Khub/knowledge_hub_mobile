@@ -214,6 +214,37 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
                           style: const TextStyle(color: Colors.blue),
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: publication.showDisclaimer
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(Icons.info, color: Colors.grey),
+                                      xSpacer(8),
+                                      Text(
+                                        'Disclaimer',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'The information presented in this publication is for informational purposes only and should not be construed as professional advice. While all efforts have been made to ensure accuracy, the publisher and authors assume no responsibility for any errors or omissions. Readers should always consult with qualified professionals before making any decisions based on the content herein.',
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 12),
+                                  ),
+                                  const Divider(
+                                      thickness: 1, color: Colors.grey),
+                                ],
+                              )
+                            : SizedBox.shrink(),
+                      ),
                       ySpacer(8),
                       Consumer<AuthViewModel>(
                           builder: (context, provider, child) {

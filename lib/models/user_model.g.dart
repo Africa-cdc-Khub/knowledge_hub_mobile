@@ -121,6 +121,7 @@ UserSettingsModel _$UserSettingsModelFromJson(Map<String, dynamic> json) =>
       spotlightBanner: json['spotlightBanner'] as String,
       bannerText: json['bannerText'] as String,
       slogan: json['slogan'] as String,
+      contentDisclaimer: json['contentDisclaimer'] as String,
     );
 
 Map<String, dynamic> _$UserSettingsModelToJson(UserSettingsModel instance) =>
@@ -146,4 +147,5 @@ Map<String, dynamic> _$UserSettingsModelToJson(UserSettingsModel instance) =>
       'spotlightBanner': instance.spotlightBanner,
       'bannerText': instance.bannerText,
       'slogan': instance.slogan,
+      'contentDisclaimer': instance.contentDisclaimer,
     };

@@ -106,6 +106,7 @@ UserSettingsApiModel _$UserSettingsApiModelFromJson(
       json['spotlight_banner'] as String?,
       json['banner_text'] as String?,
       json['slogan'] as String?,
+      json['content_disclaimer'] as String?,
     );
 
 Map<String, dynamic> _$UserSettingsApiModelToJson(
@@ -131,6 +132,7 @@ Map<String, dynamic> _$UserSettingsApiModelToJson(
       'spotlight_banner': instance.spotlight_banner,
       'banner_text': instance.banner_text,
       'slogan': instance.slogan,
+      'content_disclaimer': instance.content_disclaimer,
     };
 
 UserPreferenceApiModel _$UserPreferenceApiModelFromJson(

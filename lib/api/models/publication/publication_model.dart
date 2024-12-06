@@ -42,7 +42,7 @@ class PublicationApiModel {
   AuthorApiModel? author;
   SubThemeApiModel? sub_theme;
   CategoryApiModel? category;
-
+  bool? show_disclaimer;
 
   PublicationApiModel(
       this.id,
@@ -75,9 +75,11 @@ class PublicationApiModel {
       this.file_type,
       this.author,
       this.sub_theme,
-      this.category);
+      this.category,
+      this.show_disclaimer);
 
-  factory PublicationApiModel.fromJson(Map<String, dynamic> json) => _$PublicationApiModelFromJson(json);
+  factory PublicationApiModel.fromJson(Map<String, dynamic> json) =>
+      _$PublicationApiModelFromJson(json);
   Map<String, dynamic> toJson() => _$PublicationApiModelToJson(this);
 
   // factory PublicationApiModel.toModel() {
@@ -85,5 +87,4 @@ class PublicationApiModel {
   //      id, this.id ?? -1,
   //      authorId, subThematicAreaId, publication, title, description, publicationCatgoryId, geographicalCoverageId, cover, isActive, visits, createdAt, updatedAt, isFeatured, isVideo, isVersion, fileTypeId, citationLink, userId, isApproved, isRejected, theme, label, value, isFavourite, hasAttachments, fileType, author, subTheme, category)
   // }
-
 }

@@ -46,6 +46,7 @@ class PublicationModel {
   AuthorModel? author;
   SubThemeModel? subTheme;
   CategoryModel? category;
+  bool showDisclaimer;
 
   PublicationModel(
       {required this.id,
@@ -78,7 +79,8 @@ class PublicationModel {
       required this.fileType,
       required this.author,
       required this.subTheme,
-      required this.category});
+      required this.category,
+      required this.showDisclaimer});
 
   factory PublicationModel.fromApiModel(PublicationApiModel model) {
     return PublicationModel(
@@ -103,6 +105,7 @@ class PublicationModel {
         userId: model.user_id ?? -1,
         isApproved: model.is_approved ?? -1,
         isRejected: model.is_rejected ?? -1,
+        showDisclaimer: model.show_disclaimer ?? false,
         theme:
             model.theme != null ? ThemeModel.fromApiModel(model.theme!) : null,
         label: model.label ?? '',

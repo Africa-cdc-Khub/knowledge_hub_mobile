@@ -226,14 +226,16 @@ class _AuthClient implements AuthClient {
       preferences,
     ));
     if (profilePhoto != null) {
-      _data.files.add(MapEntry(
-        'photo',
-        MultipartFile.fromFileSync(
-          profilePhoto.path,
-          filename: profilePhoto.path.split(Platform.pathSeparator).last,
-          contentType: MediaType.parse('image/jpeg'),
-        ),
-      ));
+      if (profilePhoto != null) {
+        _data.files.add(MapEntry(
+          'photo',
+          MultipartFile.fromFileSync(
+            profilePhoto.path,
+            filename: profilePhoto.path.split(Platform.pathSeparator).last,
+            contentType: MediaType.parse('image/jpeg'),
+          ),
+        ));
+      }
     }
     final _options = _setStreamType<ProfileResponse>(Options(
       method: 'POST',
@@ -318,14 +320,16 @@ class _AuthClient implements AuthClient {
       preferences,
     ));
     if (profilePhoto != null) {
-      _data.files.add(MapEntry(
-        'photo',
-        MultipartFile.fromFileSync(
-          profilePhoto.path,
-          filename: profilePhoto.path.split(Platform.pathSeparator).last,
-          contentType: MediaType.parse('image/jpeg'),
-        ),
-      ));
+      if (profilePhoto != null) {
+        _data.files.add(MapEntry(
+          'photo',
+          MultipartFile.fromFileSync(
+            profilePhoto.path,
+            filename: profilePhoto.path.split(Platform.pathSeparator).last,
+            contentType: MediaType.parse('image/jpeg'),
+          ),
+        ));
+      }
     }
     final _options = _setStreamType<dynamic>(Options(
       method: 'POST',
