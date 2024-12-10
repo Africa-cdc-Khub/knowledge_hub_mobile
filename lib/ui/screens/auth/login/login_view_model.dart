@@ -62,8 +62,7 @@ class LoginViewModel extends ChangeNotifier {
       final response = result.data!;
 
       if (response.user != null) {
-        LOGGER.d(response.user!.toJson());
-        // await _saveUser(response.user!);
+        await _saveUser(response.user!);
       }
       final user = response.user!;
       return LoginState.loginSuccess(true, user);

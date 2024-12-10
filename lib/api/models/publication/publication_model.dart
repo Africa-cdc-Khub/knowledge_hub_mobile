@@ -42,7 +42,7 @@ class PublicationApiModel {
   AuthorApiModel? author;
   SubThemeApiModel? sub_theme;
   CategoryApiModel? category;
-  bool? show_disclaimer;
+  int? show_disclaimer;
 
   PublicationApiModel(
       this.id,

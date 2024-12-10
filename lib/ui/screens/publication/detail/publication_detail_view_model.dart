@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:khub_mobile/cache/utility_datasource.dart';
 import 'package:khub_mobile/injection_container.dart';
 import 'package:khub_mobile/models/comment_model.dart';
 import 'package:khub_mobile/models/publication_model.dart';
+import 'package:khub_mobile/models/settings_model.dart';
 import 'package:khub_mobile/models/user_model.dart';
 import 'package:khub_mobile/repository/auth_repository.dart';
 import 'package:khub_mobile/repository/publication_repository.dart';
@@ -13,6 +15,7 @@ class PublicationDetailState {
   final String _errorMessage = '';
   PublicationModel? _publication;
   UserModel? _currentUser;
+  SettingsModel? _appSettings;
 
   bool get loading => _loading;
 
@@ -21,6 +24,8 @@ class PublicationDetailState {
   PublicationModel? get publication => _publication;
 
   UserModel? get currentUser => _currentUser;
+
+  SettingsModel? get appSettings => _appSettings;
 }
 
 class PublicationDetailViewModel extends ChangeNotifier with SafeNotifier {
@@ -30,8 +35,10 @@ class PublicationDetailViewModel extends ChangeNotifier with SafeNotifier {
 
   final AuthRepository authRepository;
   final PublicationRepository publicationRepository;
+  final UtilityDatasource utilityDatasource;
 
-  PublicationDetailViewModel(this.authRepository, this.publicationRepository);
+  PublicationDetailViewModel(
+      this.authRepository, this.publicationRepository, this.utilityDatasource);
 
   void setCurrentPublication(PublicationModel model) {
     state._publication = model;
@@ -43,6 +50,15 @@ class PublicationDetailViewModel extends ChangeNotifier with SafeNotifier {
     state._currentUser = user;
     safeNotifyListeners();
     return Future.value(user != null);
+  }
+
+  Future<bool?> getAppSettings() async {
+    final settings = await utilityDatasource.getSettings();
+    if (settings.isNotEmpty) {
+      state._appSettings = settings[0];
+    }
+    safeNotifyListeners();
+    return Future.value(settings.isNotEmpty);
   }
 
   Future<void> addComment(String comment) async {

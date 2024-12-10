@@ -64,26 +64,26 @@ class SocialLoginButtons extends StatelessWidget {
                   ),
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: CustomButton(
-                    onPressed: onMicrosoftSignIn,
-                    containerColor: MainTheme.appColors.white200,
-                    foregroundColor: Colors.black,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset('assets/images/microsoft_icon.png',
-                            height: 24),
-                        const SizedBox(width: 8),
-                        const Text('Microsoft',
-                            style: TextStyle(color: Colors.black)),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              // Expanded(
+              //   child: Padding(
+              //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              //     child: CustomButton(
+              //       onPressed: onMicrosoftSignIn,
+              //       containerColor: MainTheme.appColors.white200,
+              //       foregroundColor: Colors.black,
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           Image.asset('assets/images/microsoft_icon.png',
+              //               height: 24),
+              //           const SizedBox(width: 8),
+              //           const Text('Microsoft',
+              //               style: TextStyle(color: Colors.black)),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ],

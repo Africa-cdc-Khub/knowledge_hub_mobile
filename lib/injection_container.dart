@@ -44,8 +44,11 @@ Future<void> init() async {
       preferences: getIt(),
       apiClientRepository: getIt(),
       userDatasource: getIt()));
-  getIt.registerLazySingleton<UtilityRepository>(
-      () => UtilityRepositoryImpl(apiClientRepository: getIt()));
+  getIt.registerLazySingleton<UtilityRepository>(() => UtilityRepositoryImpl(
+      apiClientRepository: getIt(),
+      colorThemeRepository: getIt(),
+      utilityDatasource: getIt(),
+      connectionRepository: getIt()));
   getIt.registerLazySingleton<CommunitiesRepository>(
       () => CommunitiesRepositoryImpl(apiClientRepository: getIt()));
   getIt.registerLazySingleton<EventRepository>(

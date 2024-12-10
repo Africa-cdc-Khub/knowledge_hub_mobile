@@ -40,6 +40,7 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
   void initState() {
     viewModel = Provider.of<PublicationDetailViewModel>(context, listen: false);
     viewModel.getCurrentUser();
+    viewModel.getAppSettings();
     super.initState();
   }
 
@@ -222,20 +223,26 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
                                 children: [
                                   Row(
                                     children: [
-                                      Icon(Icons.info, color: Colors.grey),
+                                      Icon(
+                                        Icons.info,
+                                        color: Colors.grey,
+                                        size: 16,
+                                      ),
                                       xSpacer(8),
                                       Text(
                                         'Disclaimer',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 16,
+                                          fontSize: 14,
                                         ),
                                       ),
                                     ],
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
-                                    'The information presented in this publication is for informational purposes only and should not be construed as professional advice. While all efforts have been made to ensure accuracy, the publisher and authors assume no responsibility for any errors or omissions. Readers should always consult with qualified professionals before making any decisions based on the content herein.',
+                                    viewModel.state.appSettings
+                                            ?.contentDisclaimer ??
+                                        '',
                                     style: TextStyle(
                                         color: Colors.grey, fontSize: 12),
                                   ),

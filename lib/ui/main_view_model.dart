@@ -6,6 +6,7 @@ import 'package:khub_mobile/models/community_model.dart';
 import 'package:khub_mobile/models/country_model.dart';
 import 'package:khub_mobile/models/preference_model.dart';
 import 'package:khub_mobile/models/resource_model.dart';
+import 'package:khub_mobile/repository/connection_repository.dart';
 import 'package:khub_mobile/repository/notifications_repository.dart';
 import 'package:khub_mobile/repository/utility_repository.dart';
 import 'package:khub_mobile/ui/providers/safe_notifier.dart';
@@ -30,13 +31,19 @@ class MainViewModel extends ChangeNotifier with SafeNotifier {
   final UtilityRepository utilityRepository;
   final UtilityDatasource utilityDatasource;
   final NotificationRepository notificationRepository;
+  final ConnectionRepository connectionRepository;
 
   MainState state = MainState();
 
   MainState get getState => state;
 
   MainViewModel(this.utilityRepository, this.utilityDatasource,
-      this.notificationRepository);
+      this.notificationRepository, this.connectionRepository);
+
+  Future<bool> _checkInternetConnection() async {
+    final isConnected = await connectionRepository.checkInternetStatus();
+    return isConnected;
+  }
 
   Future<int> getUnreadNotificationCount() async {
     final countState =
@@ -132,14 +139,21 @@ class MainViewModel extends ChangeNotifier with SafeNotifier {
     }
   }
 
+  Future<void> fetchAppSettings() async {
+    try {
+      final isConnected = await _checkInternetConnection();
+      if (!isConnected) {
+        return;
+      }
+
+      await utilityRepository.fetchAppSettings();
+    } on Exception catch (err) {
+      LOGGER.e(err);
+    }
+  }
+
   Future<void> syncUtilities() async {
     if (utilityDatasource.isUtilitiesSynced()) {
-      // await getJobs();
-      // await getCommunities();
-      // await getCountries();
-      // await getPreferences();
-      // await getFileTypes();
-      // await getFileCategories();
       return;
     }
 

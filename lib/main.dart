@@ -7,6 +7,7 @@ import 'package:khub_mobile/cache/preferences_datasource.dart';
 import 'package:khub_mobile/firebase_options.dart';
 import 'package:khub_mobile/providers/locale_provider.dart';
 import 'package:khub_mobile/repository/color_theme_repository.dart';
+import 'package:khub_mobile/repository/utility_repository.dart';
 import 'package:khub_mobile/services/microsoft_auth_service.dart';
 import 'package:khub_mobile/ui/elements/countries/countries_search_view_model.dart';
 import 'package:khub_mobile/ui/elements/jobs/jobs_view_model.dart';
@@ -217,6 +218,9 @@ void main() async {
   LocaleProvider localeProvider = LocaleProvider();
   await localeProvider.getCachedLanguage();
 
+  // Download the app settings
+  // await _loadAppSettings();
+
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -235,6 +239,11 @@ void main() async {
   MicrosoftAuthService().initialize(getIt<GlobalKey<NavigatorState>>());
 
   runApp(RestartWidget(localeProvider: localeProvider));
+}
+
+Future<void> _loadAppSettings() async {
+  final utilityRepo = getIt<UtilityRepository>();
+  await utilityRepo.fetchAppSettings();
 }
 
 Future<ThemeData> _loadThemeData() async {
@@ -352,9 +361,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<ProfileViewModel>(
             create: (_) => ProfileViewModel(getIt())),
         ChangeNotifierProvider<MainViewModel>(
-            create: (_) => MainViewModel(getIt(), getIt(), getIt())),
+            create: (_) => MainViewModel(getIt(), getIt(), getIt(), getIt())),
         ChangeNotifierProvider<PublicationDetailViewModel>(
-            create: (_) => PublicationDetailViewModel(getIt(), getIt())),
+            create: (_) =>
+                PublicationDetailViewModel(getIt(), getIt(), getIt())),
         ChangeNotifierProvider<CreateForumViewModel>(
             create: (_) => CreateForumViewModel(forumRepository: getIt())),
         ChangeNotifierProvider<TopSearchesViewModel>(

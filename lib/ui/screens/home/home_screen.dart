@@ -50,10 +50,18 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     authViewModel.checkLoginStatus();
+    _getAppSettings();
     _getUtilities();
     _getCurrentUser();
     _getUnreadNotificationCount();
     super.initState();
+  }
+
+  Future<void> _getAppSettings() async {
+    await mainViewModel.fetchAppSettings();
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> _getThemes(bool isTablet) async {
