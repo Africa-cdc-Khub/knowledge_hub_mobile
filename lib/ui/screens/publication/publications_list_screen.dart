@@ -61,6 +61,10 @@ class _PublicationsListScreenState extends State<PublicationsListScreen> {
     final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
     if (authViewModel.state.isLoggedIn) {
       await viewModel.addFavorite(publicationId);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Please login to add this publication to favorites"),
+      ));
     }
   }
 
@@ -158,8 +162,10 @@ class _PublicationsListScreenState extends State<PublicationsListScreen> {
                     isVerticalItem: true,
                     borderRadius: 0,
                     model: item,
-                    onLike: () {
-                      _likePublication(item.id);
+                    onLike: () async {
+                      if (!item.isFavourite) {
+                        await _likePublication(item.id);
+                      }
                     },
                     onClick: () {
                       Provider.of<PublicationDetailViewModel>(context,

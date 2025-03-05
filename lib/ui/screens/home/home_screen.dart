@@ -152,11 +152,11 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14.0),
               child: homeLabel(context,
-                  title: context.localized.recommended,
+                  title: context.localized.topSearches,
                   actionLabel: context.localized.viewAll, onClick: () {
                 context.pushNamed(publicationList,
                     extra: PublicationListScreenState(
-                        listType: 1, title: context.localized.recommended));
+                        listType: 1, title: context.localized.topSearches));
               }),
             ),
             ySpacer(6.0),
@@ -164,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.only(left: 10.0),
                 constraints: const BoxConstraints(
                     minHeight: 100, minWidth: double.infinity, maxHeight: 300),
-                child: const RecommendedPublications()),
+                child: const TopSearches()),
             ySpacer(16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14.0),
@@ -188,18 +188,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding:
                     const EdgeInsets.only(left: 14.0, right: 14.0, top: 16),
                 child: homeLabel(context,
-                    title: context.localized.topSearches,
+                    title: context.localized.recommended,
                     actionLabel: context.localized.viewAll, onClick: () {
                   context.pushNamed(publicationList,
                       extra: PublicationListScreenState(
-                          listType: 2, title: context.localized.topSearches));
+                          listType: 2, title: context.localized.recommended));
                 })),
             ySpacer(6.0),
-            Container(
-                padding: const EdgeInsets.only(left: 10.0),
-                constraints: const BoxConstraints(
-                    minHeight: 100, minWidth: double.infinity, maxHeight: 300),
-                child: const TopSearches()),
+            // Container(
+            //     padding: const EdgeInsets.only(left: 10.0),
+            //     constraints: const BoxConstraints(
+            //         minHeight: 100, minWidth: double.infinity, maxHeight: 300),
+            //     child: const RecommendedPublications()),
+            const RecommendedPublications()
           ],
         ),
       ),

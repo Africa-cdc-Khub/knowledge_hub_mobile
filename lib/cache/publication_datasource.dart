@@ -28,7 +28,6 @@ class PublicationDataSourceImpl implements PublicationDataSource {
   }
 
   @override
-  @override
   Future<void> savePublications(List<PublicationEntity> entities) async {
     try {
       final db = await database;
