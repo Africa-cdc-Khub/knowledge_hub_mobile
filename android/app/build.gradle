@@ -41,7 +41,7 @@ android {
         release {
             keyAlias localProperties['keyAlias']
             keyPassword localProperties['keyPassword']
-            storeFile file(localProperties['storeFile'])
+            storeFile file("$rootDir/${localProperties['storeFile']}")
             storePassword localProperties['storePassword']
         }
     }
