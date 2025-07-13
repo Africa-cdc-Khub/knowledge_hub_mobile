@@ -7,6 +7,7 @@ import 'package:khub_mobile/models/file_type_model.dart';
 import 'package:khub_mobile/models/job_model.dart';
 import 'package:khub_mobile/models/preference_model.dart';
 import 'package:khub_mobile/models/resource_model.dart';
+import 'package:khub_mobile/models/settings_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'db/app_database.dart';
@@ -24,6 +25,10 @@ abstract class UtilityDatasource {
   Future<void> saveCommunity(CommunityModel entity);
   Future<void> saveCommunities(List<CommunityModel> entities);
   Future<List<CommunityModel>> getCommunities();
+
+  Future<void> saveSetting(SettingsModel entity);
+  Future<void> saveSettings(List<SettingsModel> entities);
+  Future<List<SettingsModel>> getSettings();
 
   Future<void> savePreference(PreferenceModel entity);
   Future<void> savePreferences(List<PreferenceModel> entities);
@@ -95,7 +100,6 @@ class UtilityDatasourceImpl implements UtilityDatasource {
   Future<List<FileCategoryModel>> getCategories() async {
     try {
       final db = await database;
-      // final list = await db.rawQuery('SELECT * FROM ${AppDatabase.fileCategoryTable}');
       final list = await db.query(AppDatabase.fileCategoryTable);
       List<FileCategoryModel> modelList = [];
 
@@ -604,6 +608,54 @@ class UtilityDatasourceImpl implements UtilityDatasource {
     } catch (e) {
       LOGGER.e(e);
       throw Exception('Failed to search preferences');
+    }
+  }
+
+  @override
+  Future<List<SettingsModel>> getSettings() async {
+    try {
+      final db = await database;
+      final list = await db.query(AppDatabase.settingsTable);
+      return list.map((item) => SettingsModel.fromJson(item)).toList();
+    } catch (e) {
+      LOGGER.e(e);
+      throw Exception('Failed to get settings');
+    }
+  }
+
+  @override
+  Future<void> saveSetting(SettingsModel entity) async {
+    try {
+      final db = await database;
+      await db.transaction((txn) async {
+        await txn.insert(
+          AppDatabase.settingsTable,
+          entity.toJson(),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      });
+    } catch (e) {
+      LOGGER.e(e);
+      throw Exception('Failed to save setting');
+    }
+  }
+
+  @override
+  Future<void> saveSettings(List<SettingsModel> entities) async {
+    try {
+      final db = await database;
+      var batch = db.batch();
+
+      for (var entity in entities) {
+        await db.insert(
+          AppDatabase.settingsTable,
+          entity.toJson(),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+      await batch.commit(noResult: true);
+    } catch (e) {
+      throw Exception('Failed to save settings');
     }
   }
 }

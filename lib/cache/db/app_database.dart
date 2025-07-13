@@ -171,7 +171,45 @@ final List<String> migrations = [
     createdAt TEXT,
     updatedAt TEXT
   );
+  ''',
   '''
+  CREATE TABLE ${AppDatabase.publicationTable}(
+    id INTEGER PRIMARY KEY NOT NULL,
+    title TEXT,
+    description TEXT,
+    imageUrl TEXT,
+    type INTEGER,
+    content TEXT
+  );
+  ''',
+  '''
+  ALTER TABLE ${AppDatabase.userSettingsTable} ADD COLUMN contentDisclaimer TEXT DEFAULT '';
+  ''',
+  '''
+  CREATE TABLE ${AppDatabase.settingsTable}(
+    id INTEGER PRIMARY KEY NOT NULL,
+    title TEXT,
+    siteName TEXT,
+    seoKeywords TEXT,
+    siteDescription TEXT,
+    address TEXT,
+    email TEXT,
+    phone TEXT,
+    language TEXT,
+    timezone TEXT,
+    primaryColor TEXT,
+    secondaryColor TEXT,
+    logo TEXT,
+    favicon TEXT,
+    iconFontColor TEXT,
+    primaryTextColor TEXT,
+    linksActiveColor TEXT,
+    spotlightBanner TEXT,
+    bannerText TEXT,
+    slogan TEXT,
+    contentDisclaimer TEXT
+  );
+  ''',
 ];
 
 class AppDatabase {
@@ -191,6 +229,8 @@ class AppDatabase {
   static const String resourceTypeTable = 'resource_type_table';
   static const String resourceCategoryTable = 'resource_category_table';
   static const String eventTable = 'event_table';
+  static const String publicationTable = 'publication_table';
+  static const String settingsTable = 'settings_table';
 
   final config = MigrationConfig(
       initializationScript: initialScript, migrationScripts: migrations);

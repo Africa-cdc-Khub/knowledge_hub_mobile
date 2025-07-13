@@ -193,6 +193,7 @@ class UserSettingsModel {
   String spotlightBanner;
   String bannerText;
   String slogan;
+  String contentDisclaimer;
 
   UserSettingsModel(
       {required this.id,
@@ -215,7 +216,8 @@ class UserSettingsModel {
       required this.linksActiveColor,
       required this.spotlightBanner,
       required this.bannerText,
-      required this.slogan});
+      required this.slogan,
+      required this.contentDisclaimer});
 
   factory UserSettingsModel.fromJson(Map<String, dynamic> json) =>
       _$UserSettingsModelFromJson(json);
@@ -225,27 +227,27 @@ class UserSettingsModel {
   factory UserSettingsModel.fromApiModel(
       UserSettingsApiModel model, int? userId) {
     return UserSettingsModel(
-      id: model.id ?? -1,
-      userId: userId ?? -1,
-      title: model.title ?? '',
-      siteName: model.site_name ?? '',
-      seoKeywords: model.seo_keywords ?? '',
-      siteDescription: model.site_description ?? '',
-      address: model.address ?? '',
-      email: model.email ?? '',
-      phone: model.phone ?? '',
-      language: model.language ?? '',
-      timezone: model.timezone ?? '',
-      primaryColor: model.primary_color ?? '',
-      secondaryColor: model.secondary_color ?? '',
-      logo: model.logo ?? '',
-      favicon: model.favicon ?? '',
-      iconFontColor: model.icon_font_color ?? '',
-      primaryTextColor: model.primary_text_color ?? '',
-      linksActiveColor: model.links_active_color ?? '',
-      spotlightBanner: model.spotlight_banner ?? '',
-      bannerText: model.banner_text ?? '',
-      slogan: model.slogan ?? '',
-    );
+        id: model.id ?? -1,
+        userId: userId ?? -1,
+        title: model.title ?? '',
+        siteName: model.site_name ?? '',
+        seoKeywords: model.seo_keywords ?? '',
+        siteDescription: model.site_description ?? '',
+        address: model.address ?? '',
+        email: model.email ?? '',
+        phone: model.phone ?? '',
+        language: model.language ?? '',
+        timezone: model.timezone ?? '',
+        primaryColor: model.primary_color ?? '',
+        secondaryColor: model.secondary_color ?? '',
+        logo: model.logo ?? '',
+        favicon: model.favicon ?? '',
+        iconFontColor: model.icon_font_color ?? '',
+        primaryTextColor: model.primary_text_color ?? '',
+        linksActiveColor: model.links_active_color ?? '',
+        spotlightBanner: model.spotlight_banner ?? '',
+        bannerText: model.banner_text ?? '',
+        slogan: model.slogan ?? '',
+        contentDisclaimer: model.content_disclaimer ?? '');
   }
 }

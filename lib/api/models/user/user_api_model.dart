@@ -96,6 +96,7 @@ class UserSettingsApiModel {
   String? spotlight_banner;
   String? banner_text;
   String? slogan;
+  String? content_disclaimer;
 
   UserSettingsApiModel(
       this.id,
@@ -117,7 +118,8 @@ class UserSettingsApiModel {
       this.links_active_color,
       this.spotlight_banner,
       this.banner_text,
-      this.slogan);
+      this.slogan,
+      this.content_disclaimer);
 
   factory UserSettingsApiModel.fromJson(Map<String, dynamic> json) =>
       _$UserSettingsApiModelFromJson(json);

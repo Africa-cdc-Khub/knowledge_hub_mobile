@@ -68,13 +68,18 @@ class _EventsCarouselState extends State<EventsCarousel> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final shortestSide = screenSize.shortestSide;
+    final isTablet = shortestSide >= 600;
+    final height = isTablet ? 210.0 : 170.0;
+
     return Column(
       children: [
         CarouselSlider.builder(
           carouselController: _carouselController,
           itemCount: widget.events.length,
           options: CarouselOptions(
-            height: 170,
+            height: height,
             aspectRatio: 16 / 9,
             viewportFraction: 1.0,
             initialPage: 0,
@@ -101,7 +106,7 @@ class _EventsCarouselState extends State<EventsCarousel> {
               child: Image.network(
                 item.bannerImage,
                 width: double.infinity,
-                height: 170,
+                height: height,
                 fit: BoxFit.cover,
                 loadingBuilder: (BuildContext context, Widget child,
                     ImageChunkEvent? loadingProgress) {
@@ -131,7 +136,7 @@ class _EventsCarouselState extends State<EventsCarousel> {
                 width: 8.0,
                 height: 8.0,
                 margin:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 4.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: (Theme.of(context).brightness == Brightness.dark

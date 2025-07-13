@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:khub_mobile/api/config/config.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:khub_mobile/api/config/env_config.dart';
 import 'package:khub_mobile/main.dart';
 import 'package:khub_mobile/ui/elements/dialogs/info_dialog.dart';
 import 'package:khub_mobile/ui/elements/spacers.dart';
@@ -102,7 +104,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     icon: Icons.question_answer, onClick: () {
                   context.pushNamed(webViewer,
                       extra: WebViewerState(
-                          linkUrl: Config.faqsUrl,
+                          linkUrl: EnvConfig.faqsUrl,
                           title: context.localized.faqs));
                 }),
                 _accountItem(context,
@@ -111,7 +113,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     icon: Icons.lock, onClick: () {
                   context.pushNamed(webViewer,
                       extra: WebViewerState(
-                          linkUrl: Config.privacyPolicyUrl,
+                          linkUrl: EnvConfig.privacyPolicyUrl,
                           title: context.localized.privacyPolicy));
                 }),
                 ySpacer(20),
@@ -218,7 +220,10 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   void _logout() async {
+    await FirebaseAuth.instance.signOut(); // Sign out from Firebase
+    await GoogleSignIn().signOut();
     final loggedOut = await authViewModel.logout();
+    // await oauth.logout(); // Sign out from Microsoft
 
     if (loggedOut) {
       authViewModel.checkLoginStatus();

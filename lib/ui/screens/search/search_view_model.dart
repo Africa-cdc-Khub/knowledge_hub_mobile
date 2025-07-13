@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:khub_mobile/api/config/config.dart';
+import 'package:khub_mobile/api/config/env_config.dart';
 import 'package:khub_mobile/api/models/data_state.dart';
 import 'package:khub_mobile/injection_container.dart';
 import 'package:khub_mobile/models/forum_model.dart';
@@ -11,9 +11,8 @@ import 'package:khub_mobile/ui/providers/safe_notifier.dart';
 
 class SearchState {
   bool _loading = false;
-  bool _loadingMore = false;
   String _errorMessage = '';
-  int _currentPage = Config.startPage;
+  int _currentPage = EnvConfig.startPage;
   int _totalPages = 1;
   bool _isEndOfPage = false;
   List<PublicationModel> _publications = [];
@@ -51,10 +50,10 @@ class SearchViewModel extends ChangeNotifier with SafeNotifier {
   }
 
   Future<void> fetchPublications(
-      {String term = '', int page = Config.startPage}) async {
+      {String term = '', int page = EnvConfig.startPage}) async {
     state._loading = true;
     state._publications = []; // reset
-    state._currentPage = Config.startPage; // reset
+    state._currentPage = EnvConfig.startPage; // reset
     state._isEndOfPage = false; // reset
     safeNotifyListeners();
 
@@ -93,8 +92,6 @@ class SearchViewModel extends ChangeNotifier with SafeNotifier {
 
   Future<void> loadMorePublications({String searchTerm = ''}) async {
     if (state._currentPage < state._totalPages && !state._isEndOfPage) {
-      state._loadingMore = true;
-
       try {
         final isConnected = await _checkInternetConnection();
         if (!isConnected) {
@@ -123,17 +120,16 @@ class SearchViewModel extends ChangeNotifier with SafeNotifier {
       } on Exception catch (err) {
         LOGGER.e(err);
       } finally {
-        state._loadingMore = false;
         safeNotifyListeners();
       }
     }
   }
 
   Future<void> fetchForums(
-      {String term = '', int page = Config.startPage}) async {
+      {String term = '', int page = EnvConfig.startPage}) async {
     state._loading = true;
     state._forums = []; // reset
-    state._currentPage = Config.startPage; // reset
+    state._currentPage = EnvConfig.startPage; // reset
     state._isEndOfPage = false; // reset
     safeNotifyListeners();
 
@@ -171,7 +167,6 @@ class SearchViewModel extends ChangeNotifier with SafeNotifier {
 
   Future<void> loadMoreForums({String searchTerm = ''}) async {
     if (state._currentPage < state._totalPages && !state._isEndOfPage) {
-      state._loadingMore = true;
       try {
         final isConnected = await _checkInternetConnection();
         if (!isConnected) {
@@ -202,7 +197,6 @@ class SearchViewModel extends ChangeNotifier with SafeNotifier {
       } on Exception catch (err) {
         LOGGER.e(err);
       } finally {
-        state._loadingMore = false;
         safeNotifyListeners();
       }
     }

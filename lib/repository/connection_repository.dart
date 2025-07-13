@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:khub_mobile/injection_container.dart';
 
 abstract class ConnectionRepository {
   Future<bool> checkInternetStatus();
@@ -29,9 +28,9 @@ class ConnectionRepositoryImpl implements ConnectionRepository {
     try {
       final dio = initDio();
       final response = await dio.get('');
-      LOGGER.d(response.statusCode == 200
-          ? 'HAS INTERNET CONNECTION'
-          : 'NO INTERNET CONNECTION');
+      // LOGGER.d(response.statusCode == 200
+      //     ? 'HAS INTERNET CONNECTION'
+      //     : 'NO INTERNET CONNECTION');
       return response.statusCode == 200;
     } catch (e) {
       return false;

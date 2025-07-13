@@ -49,6 +49,8 @@ abstract class AuthRepository {
   Future<void> saveUser(UserModel user);
   Future<UserModel?> getCurrentUser();
   Future<DataState<dynamic>> forgotPassword(String email);
+  Future<DataState<TokenModel>> socialLogin(Map<String, dynamic> payload);
+  Future<void> saveToken(TokenModel token);
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -90,20 +92,25 @@ class AuthRepositoryImpl implements AuthRepository {
       final result = TokenModel.fromApiModel(response);
 
       // Save token
-      await preferences.saveString(
-          PreferencesDatasource.accessToken, result.accessToken);
-      await preferences.saveString(
-          PreferencesDatasource.refreshTokenKey, result.refreshToken);
-      await preferences.saveString(
-          PreferencesDatasource.expiresInKey, result.expiresIn);
-      await preferences.saveString(
-          PreferencesDatasource.tokenTypeKey, result.tokenType);
-      await setLoggedIn(result.accessToken.isNotEmpty);
+      await saveToken(result);
 
       return DataSuccess(TokenModel.fromApiModel(response));
     } on DioException catch (err) {
       return DataError(Helpers.resolveError(err));
     }
+  }
+
+  @override
+  Future<void> saveToken(TokenModel token) async {
+    await preferences.saveString(
+        PreferencesDatasource.accessToken, token.accessToken);
+    await preferences.saveString(
+        PreferencesDatasource.refreshTokenKey, token.refreshToken);
+    await preferences.saveString(
+        PreferencesDatasource.expiresInKey, token.expiresIn);
+    await preferences.saveString(
+        PreferencesDatasource.tokenTypeKey, token.tokenType);
+    await setLoggedIn(token.accessToken.isNotEmpty);
   }
 
   @override
@@ -247,19 +254,41 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> saveUser(UserModel user) async {
     try {
-      final country = user.country!;
-      final settings = user.settings!;
-      final preferences = user.preferences!;
+      if (user.country != null) {
+        await userDatasource.saveUserCountry(user.country!);
+      }
 
-      await userDatasource.saveUserCountry(country);
-      await userDatasource.saveUserPreferences(preferences);
-      await userDatasource.saveUserSetting(settings);
-      await colorThemeRepository.saveThemeColors(
-          settings.primaryColor, settings.primaryColor);
+      if (user.preferences != null) {
+        await userDatasource.saveUserPreferences(user.preferences!);
+      }
+
+      if (user.settings != null) {
+        final settings = user.settings!;
+        await userDatasource.saveUserSetting(settings);
+        await colorThemeRepository.saveThemeColors(
+            settings.primaryColor, settings.primaryColor);
+      }
 
       await userDatasource.saveUser(user);
     } on Exception catch (e) {
       LOGGER.e(e);
+    }
+  }
+
+  @override
+  Future<DataState<TokenModel>> socialLogin(
+      Map<String, dynamic> payload) async {
+    try {
+      final response = await _authClient().socialLogin(payload);
+
+      final token = TokenModel.fromApiModel(response);
+
+      // Save token
+      await saveToken(token);
+
+      return DataSuccess(token);
+    } on DioException catch (e) {
+      return DataError(Helpers.resolveError(e));
     }
   }
 }

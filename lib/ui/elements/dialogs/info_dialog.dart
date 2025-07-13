@@ -76,36 +76,41 @@ class InfoDialog extends StatelessWidget {
               style: const TextStyle(fontSize: 16),
             ),
           ),
-          ButtonBar(
-            buttonPadding: const EdgeInsets.symmetric(horizontal: 16),
-            children: [
-              TextButton(
-                onPressed: onCancel,
-                child: Text(cancelText ?? context.localized.cancel,
-                    style: TextStyle(
-                      color: cancelTextColor ?? Theme.of(context).primaryColor,
-                    )),
-              ),
-              ElevatedButton(
-                onPressed: isLoading != null && isLoading! ? null : onConfirm,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      confirmBackgroundColor ?? Theme.of(context).primaryColor,
-                  foregroundColor: confirmTextColor ?? Colors.white,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: OverflowBar(
+              // buttonPadding: const EdgeInsets.symmetric(horizontal: 16),
+              alignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: onCancel,
+                  child: Text(cancelText ?? context.localized.cancel,
+                      style: TextStyle(
+                        color:
+                            cancelTextColor ?? Theme.of(context).primaryColor,
+                      )),
                 ),
-                child: isLoading != null && isLoading!
-                    ? SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: confirmBackgroundColor ??
-                              Theme.of(context).primaryColor,
-                        ),
-                      )
-                    : Text(confirmText ?? context.localized.confirm),
-              ),
-            ],
+                ElevatedButton(
+                  onPressed: isLoading != null && isLoading! ? null : onConfirm,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: confirmBackgroundColor ??
+                        Theme.of(context).primaryColor,
+                    foregroundColor: confirmTextColor ?? Colors.white,
+                  ),
+                  child: isLoading != null && isLoading!
+                      ? SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: confirmBackgroundColor ??
+                                Theme.of(context).primaryColor,
+                          ),
+                        )
+                      : Text(confirmText ?? context.localized.confirm),
+                ),
+              ],
+            ),
           ),
         ],
       ),

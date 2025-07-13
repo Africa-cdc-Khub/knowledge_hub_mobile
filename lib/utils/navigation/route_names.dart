@@ -2,6 +2,7 @@ const String splashScreen = 'splashScreen';
 //------------AUTH------------
 const String signUp = 'signup';
 const String login = 'login';
+const String completeRegistration = 'completeRegistration';
 
 // Bottom Nav
 const String home = 'home';

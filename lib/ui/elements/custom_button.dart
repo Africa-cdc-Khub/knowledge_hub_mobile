@@ -31,6 +31,8 @@ class CustomButton extends StatelessWidget {
           style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(
                   containerColor ?? Theme.of(context).primaryColor),
+              overlayColor: WidgetStateProperty.all(
+                  Theme.of(context).primaryColor.withOpacity(0.1)),
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0),

@@ -101,6 +101,23 @@ class Helpers {
     return formatted;
   }
 
+  static Map<String, String> extractNames(String fullName) {
+    // Split the full name into parts
+    List<String> nameParts = fullName.split(" ");
+
+    // Extract the first name
+    String firstName = nameParts.isNotEmpty ? nameParts[0] : "";
+
+    // Combine the remaining parts as the last name
+    String lastName =
+        nameParts.length > 1 ? nameParts.sublist(1).join(" ") : "";
+
+    return {
+      "firstName": firstName,
+      "lastName": lastName,
+    };
+  }
+
   static String resolveError(DioException? error) {
     String data = "";
     if (error == null) {

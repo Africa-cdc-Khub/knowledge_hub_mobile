@@ -1,4 +1,4 @@
-import 'package:khub_mobile/api/config/config.dart';
+import 'package:khub_mobile/api/config/env_config.dart';
 import 'package:khub_mobile/api/controllers/api_client.dart';
 import 'package:khub_mobile/api/models/courses/courses_api_model.dart';
 import 'package:khub_mobile/api/models/data_state.dart';
@@ -27,8 +27,8 @@ class CoursesRepositoryImpl implements CoursesRepository {
   }) async {
     try {
       Map<String, dynamic> request = {
-        'page': page ?? Config.startPage,
-        'page_size': pageSize ?? Config.pageSize
+        'page': page ?? EnvConfig.startPage,
+        'page_size': pageSize ?? EnvConfig.pageSize
       };
       final response = await _apiClient().getCourses(request);
 

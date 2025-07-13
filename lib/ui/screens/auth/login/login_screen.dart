@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:khub_mobile/injection_container.dart';
 import 'package:khub_mobile/main.dart';
+import 'package:khub_mobile/models/user_model.dart';
 import 'package:khub_mobile/themes/main_theme.dart';
+import 'package:khub_mobile/ui/elements/buttons/social_login_buttons.dart';
 import 'package:khub_mobile/ui/elements/custom_button.dart';
 import 'package:khub_mobile/ui/elements/labels.dart';
 import 'package:khub_mobile/ui/elements/spacers.dart';
 import 'package:khub_mobile/ui/elements/textFields/edit_text_field.dart';
 import 'package:khub_mobile/ui/screens/auth/auth_view_model.dart';
 import 'package:khub_mobile/ui/screens/auth/login/login_view_model.dart';
+import 'package:khub_mobile/ui/screens/auth/signup/complete_registration_screen.dart';
 import 'package:khub_mobile/utils/alert_utils.dart';
+import 'package:khub_mobile/utils/helpers.dart';
 import 'package:khub_mobile/utils/l10n_extensions.dart';
 import 'package:khub_mobile/utils/navigation/route_names.dart';
 import 'package:khub_mobile/utils/validator.dart';
@@ -32,24 +37,16 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _loading = false;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   final provider = Provider.of<LoginViewModel>(context);
-  //
-  //   // Use post-frame callback to trigger navigation
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     if (provider.state.token.isNotEmpty) {
-  //       context.pushNamed(home);
-  //     }
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: const TextStyle(
                           fontWeight: FontWeight.w700, fontSize: 32),
                     ),
-                    ySpacer(50),
+                    ySpacer(30),
                     editTextLabel(context.localized.email),
                     EditTextField(
                       containerColor: MainTheme.appColors.white200,
@@ -89,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         return Validator.required(value);
                       },
                     ),
-                    ySpacer(20),
+                    ySpacer(14),
                     editTextLabel(context.localized.password),
                     EditTextField(
                       obscureText: true,
@@ -120,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-                    ySpacer(50),
+                    ySpacer(35),
                     CustomButton(
                         width: double.infinity,
                         loading: _loading,
@@ -133,12 +130,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           context.localized.login,
                           style: const TextStyle(color: Colors.white),
                         )),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: SocialLoginButtons(
+                        onGoogleSignIn: _handleGoogleSignIn,
+                        onMicrosoftSignIn: _handleMicrosoftSignIn,
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Text('Not a member?'),
+                        xSpacer(8),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          padding: const EdgeInsets.symmetric(vertical: 14.0),
                           child: InkWell(
                             onTap: () => _goToSignup(),
                             child: Text(
@@ -151,6 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
+                    ySpacer(16),
                   ],
                 )),
           ),
@@ -212,5 +219,85 @@ class _LoginScreenState extends State<LoginScreen> {
         RestartWidget.restartApp(context);
       }
     }
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    setState(() {
+      _loading = true;
+    });
+
+    final state =
+        await Provider.of<AuthViewModel>(context, listen: false).googleSignIn();
+
+    setState(() {
+      _loading = false;
+    });
+    if (!state.isSuccess && mounted) {
+      AlertUtils.showError(context: context, errorMessage: state.errorMessage);
+    } else {
+      LOGGER.d(state.userDetails);
+      await _socialSignin(state.userDetails);
+    }
+  }
+
+  Future<void> _socialSignin(Map<String, dynamic> payload) async {
+    final state = await viewModel.socialLogin(payload);
+
+    if (!mounted) return;
+
+    if (state.isSuccess) {
+      LOGGER.d('Login success');
+      UserModel user = state.user!;
+
+      if (user.country == null) {
+        _goToCompleteRegistration(context, payload);
+      } else {
+        _handleCompleteLogin();
+      }
+    } else {
+      AlertUtils.showError(context: context, errorMessage: state.errorMessage);
+    }
+  }
+
+  Future<void> _handleMicrosoftSignIn() async {
+    setState(() {
+      _loading = true;
+    });
+
+    final state = await Provider.of<AuthViewModel>(context, listen: false)
+        .microsoftSignIn();
+
+    setState(() {
+      _loading = false;
+    });
+
+    if (!state.isSuccess && mounted) {
+      AlertUtils.showError(context: context, errorMessage: state.errorMessage);
+    } else {
+      LOGGER.d(state.userDetails);
+      await _socialSignin(state.userDetails);
+    }
+  }
+
+  void _goToCompleteRegistration(
+      BuildContext context, Map<String, dynamic> payload) {
+    String? names = payload['name'];
+    if (names != null && names.isNotEmpty) {
+      Map<String, String> extractedNames = Helpers.extractNames(names);
+      payload['firstName'] = extractedNames['firstName'];
+      payload['lastName'] = extractedNames['lastName'];
+    }
+
+    context.pushNamed(completeRegistration,
+        extra: CompleteRegistrationScreenState(
+            isSocialSignup: true, socialSignupData: payload));
+  }
+
+  void _handleCompleteLogin() {
+    Provider.of<AuthViewModel>(context, listen: false).checkLoginStatus();
+    Provider.of<AuthViewModel>(context, listen: false).getCurrentUser();
+
+    //  to restart app
+    RestartWidget.restartApp(context);
   }
 }

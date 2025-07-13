@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:khub_mobile/api/models/data_state.dart';
+import 'package:khub_mobile/api/models/responses/EventResponse.dart';
 import 'package:khub_mobile/cache/events_datasource.dart';
+import 'package:khub_mobile/injection_container.dart';
 import 'package:khub_mobile/models/event_model.dart';
 import 'package:khub_mobile/repository/connection_repository.dart';
 import 'package:khub_mobile/repository/event_repository.dart';
@@ -52,9 +54,8 @@ class EventsViewModel extends ChangeNotifier {
     await eventsDatasource.saveEvents(events);
   }
 
-  Future<EventsState> _getRemoteEvents() async {
+  Future<DataState<EventResponse>> _fetchRemoteEvents() async {
     final result = await eventRepository.getEvents();
-
     if (result is DataSuccess) {
       final list = result.data?.data
               ?.map((item) => EventModel.fromApiModel(item))
@@ -62,6 +63,26 @@ class EventsViewModel extends ChangeNotifier {
           [];
       await clearEventsFromCache(); // Clear existing
       saveEventsToCache(list); // Save new events
+    }
+    return result;
+  }
+
+  Future<EventsState> _getRemoteEvents() async {
+    final cached = await getEventsFromCache();
+    if (cached.isNotEmpty) {
+      LOGGER.d('Connected but getting from the cache');
+      _fetchRemoteEvents(); // Fetch remote to update cache
+      return EventsState.success(true, cached);
+    }
+
+    LOGGER.d('Connected and getting from the remote');
+    final result = await _fetchRemoteEvents();
+
+    if (result is DataSuccess) {
+      final list = result.data?.data
+              ?.map((item) => EventModel.fromApiModel(item))
+              .toList() ??
+          [];
       return EventsState.success(true, list);
     }
 

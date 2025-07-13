@@ -8,6 +8,7 @@ import 'package:khub_mobile/ui/elements/search_bar.dart';
 import 'package:khub_mobile/ui/elements/spacers.dart';
 import 'package:khub_mobile/models/search_type_enum.dart';
 import 'package:khub_mobile/ui/main_view_model.dart';
+import 'package:khub_mobile/ui/screens/account/profile/profile_view_model.dart';
 import 'package:khub_mobile/ui/screens/auth/auth_view_model.dart';
 import 'package:khub_mobile/ui/screens/events/events_list.dart';
 import 'package:khub_mobile/ui/screens/events/events_view_model.dart';
@@ -49,10 +50,18 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     authViewModel.checkLoginStatus();
+    _getAppSettings();
     _getUtilities();
     _getCurrentUser();
     _getUnreadNotificationCount();
     super.initState();
+  }
+
+  Future<void> _getAppSettings() async {
+    await mainViewModel.fetchAppSettings();
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> _getThemes(bool isTablet) async {
@@ -119,7 +128,6 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             const AppSearchBar(searchType: SearchType.publication),
             ySpacer(4.0),
-            // const Expanded(child: EventsList()),
             Container(
                 constraints: const BoxConstraints(
                     minHeight: 10, minWidth: double.infinity, maxHeight: 240),
@@ -144,11 +152,11 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14.0),
               child: homeLabel(context,
-                  title: context.localized.recommended,
-                  actionLabel: context.localized.moreDotted, onClick: () {
+                  title: context.localized.topSearches,
+                  actionLabel: context.localized.viewAll, onClick: () {
                 context.pushNamed(publicationList,
                     extra: PublicationListScreenState(
-                        listType: 1, title: context.localized.recommended));
+                        listType: 1, title: context.localized.topSearches));
               }),
             ),
             ySpacer(6.0),
@@ -156,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.only(left: 10.0),
                 constraints: const BoxConstraints(
                     minHeight: 100, minWidth: double.infinity, maxHeight: 300),
-                child: const RecommendedPublications()),
+                child: const TopSearches()),
             ySpacer(16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14.0),
@@ -180,18 +188,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding:
                     const EdgeInsets.only(left: 14.0, right: 14.0, top: 16),
                 child: homeLabel(context,
-                    title: context.localized.topSearches,
-                    actionLabel: context.localized.moreDotted, onClick: () {
+                    title: context.localized.recommended,
+                    actionLabel: context.localized.viewAll, onClick: () {
                   context.pushNamed(publicationList,
                       extra: PublicationListScreenState(
-                          listType: 2, title: context.localized.topSearches));
+                          listType: 2, title: context.localized.recommended));
                 })),
             ySpacer(6.0),
-            Container(
-                padding: const EdgeInsets.only(left: 10.0),
-                constraints: const BoxConstraints(
-                    minHeight: 100, minWidth: double.infinity, maxHeight: 300),
-                child: const TopSearches()),
+            // Container(
+            //     padding: const EdgeInsets.only(left: 10.0),
+            //     constraints: const BoxConstraints(
+            //         minHeight: 100, minWidth: double.infinity, maxHeight: 300),
+            //     child: const RecommendedPublications()),
+            const RecommendedPublications()
           ],
         ),
       ),
@@ -244,6 +253,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
           return InkWell(
             onTap: () {
+              Provider.of<ProfileViewModel>(context, listen: false)
+                  .getCurrentUser();
               context.pushNamed(profile);
             },
             child: SizedBox(

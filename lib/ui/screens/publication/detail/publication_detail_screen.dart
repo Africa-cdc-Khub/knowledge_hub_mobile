@@ -40,6 +40,7 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
   void initState() {
     viewModel = Provider.of<PublicationDetailViewModel>(context, listen: false);
     viewModel.getCurrentUser();
+    viewModel.getAppSettings();
     super.initState();
   }
 
@@ -213,6 +214,43 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
                               : context.localized.readMore,
                           style: const TextStyle(color: Colors.blue),
                         ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: publication.showDisclaimer
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.info,
+                                        color: Colors.grey,
+                                        size: 16,
+                                      ),
+                                      xSpacer(8),
+                                      Text(
+                                        'Disclaimer',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    viewModel.state.appSettings
+                                            ?.contentDisclaimer ??
+                                        '',
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 12),
+                                  ),
+                                  const Divider(
+                                      thickness: 1, color: Colors.grey),
+                                ],
+                              )
+                            : SizedBox.shrink(),
                       ),
                       ySpacer(8),
                       Consumer<AuthViewModel>(
@@ -536,7 +574,10 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
   }
 
   _likePublication(int publicationId) async {
-    await viewModel.addFavorite(publicationId);
+    final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+    if (authViewModel.state.isLoggedIn) {
+      await viewModel.addFavorite(publicationId);
+    }
   }
 
   void _showAISummarize(
