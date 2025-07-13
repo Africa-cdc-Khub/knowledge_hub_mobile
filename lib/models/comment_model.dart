@@ -1,6 +1,10 @@
 import 'package:khub_mobile/api/models/comment/comment_model.dart';
 import 'package:khub_mobile/models/author_model.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'comment_model.g.dart';
+
+@JsonSerializable()
 class CommentModel {
   int id;
   int userId;
@@ -36,4 +40,9 @@ class CommentModel {
         user:
             model.user != null ? AuthorModel.fromApiModel(model.user!) : null);
   }
+
+  factory CommentModel.fromJson(Map<String, dynamic> json) =>
+      _$CommentModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CommentModelToJson(this);
 }

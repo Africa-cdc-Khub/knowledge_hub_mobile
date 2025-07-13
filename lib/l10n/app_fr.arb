@@ -50,7 +50,7 @@
     "search": "Rechercher",
     "recommended": "Recommandé",
     "moreDotted": "Plus...",
-    "resourceCategories": "Catégories de ressources",
+    "resourceCategories": "Catégories de données",
     "topSearches": "Recherches populaires",
     "home": "Accueil",
     "forums": "Forums",
@@ -171,5 +171,12 @@
     "fieldRequired": "Champ requis",
     "invalidPhoneNumber": "Numéro de téléphone invalide",
     "noInternetConnection": "No internet connection",
-    "retry": "Réessayer"
+    "retry": "Réessayer",
+    "alreadyAmember": "Déjà un membre?",
+    "notAmember": "Pas un membre?",
+    "microsoftSignInFailed": "Connexion avec Microsoft échouée",
+    "areYouSureYouWantToJoinThisCommunity": "Êtes-vous sûr de vouloir vous joindre à cette communauté?",
+    "areYouSureYouWantToLeaveThisCommunity": "Êtes-vous sûr de vouloir quitter cette communauté?",
+    "completeRegistration": "Compléter le registre",
+    "viewAll": "Voir tous"
 }

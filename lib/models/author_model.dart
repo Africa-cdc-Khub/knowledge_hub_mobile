@@ -1,5 +1,9 @@
 import 'package:khub_mobile/api/models/author/author_model.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'author_model.g.dart';
+
+@JsonSerializable()
 class AuthorModel {
   int id;
   String name;
@@ -37,4 +41,9 @@ class AuthorModel {
         updatedAt: model.updated_at ?? '',
         logo: model.logo ?? '');
   }
+
+  factory AuthorModel.fromJson(Map<String, dynamic> json) =>
+      _$AuthorModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AuthorModelToJson(this);
 }

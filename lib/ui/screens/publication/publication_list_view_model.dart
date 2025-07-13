@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:khub_mobile/api/config/config.dart';
+import 'package:khub_mobile/api/config/env_config.dart';
 import 'package:khub_mobile/api/models/data_state.dart';
+import 'package:khub_mobile/injection_container.dart';
 import 'package:khub_mobile/repository/connection_repository.dart';
 import 'package:khub_mobile/repository/publication_repository.dart';
 import 'package:khub_mobile/models/publication_model.dart';
@@ -9,7 +10,7 @@ import 'package:khub_mobile/ui/providers/safe_notifier.dart';
 class PublicationListState {
   bool _loading = false;
   String _errorMessage = '';
-  int _currentPage = Config.startPage;
+  int _currentPage = EnvConfig.startPage;
   int _totalPages = 1;
   bool _isEndOfPage = false;
   List<PublicationModel> _publications = [];
@@ -42,14 +43,33 @@ class PublicationListViewModel extends ChangeNotifier with SafeNotifier {
     return isConnected;
   }
 
+  Future<void> addFavorite(int publicationId) async {
+    try {
+      if (state._publications.isNotEmpty) {
+        // Find and update the publication's favorite status
+        final index =
+            state._publications.indexWhere((pub) => pub.id == publicationId);
+        if (index != -1) {
+          state._publications[index].isFavourite = true;
+          safeNotifyListeners();
+        }
+
+        await publicationRepository.addFavoritePublication(
+            publicationId: publicationId);
+      }
+    } on Exception catch (e) {
+      LOGGER.e(e);
+    }
+  }
+
   Future<void> fetchPublications(
-      {int page = Config.startPage,
+      {int page = EnvConfig.startPage,
       bool? isFeatured,
       bool? orderByVisits,
       int? categoryId}) async {
     state._loading = true;
     state._publications = []; // reset
-    state._currentPage = Config.startPage; // reset
+    state._currentPage = EnvConfig.startPage; // reset
     state._isEndOfPage = false; // reset
     safeNotifyListeners();
 

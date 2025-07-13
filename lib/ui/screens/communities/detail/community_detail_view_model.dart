@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:khub_mobile/api/config/config.dart';
+import 'package:khub_mobile/api/config/env_config.dart';
 import 'package:khub_mobile/api/models/data_state.dart';
 import 'package:khub_mobile/injection_container.dart';
 import 'package:khub_mobile/models/forum_model.dart';
@@ -12,7 +12,7 @@ class CommunityDetailState {
   bool _loading = false;
   // bool _loadingMore = false;
   String _errorMessage = '';
-  int _currentPage = Config.startPage;
+  int _currentPage = EnvConfig.startPage;
   int _totalPages = 1;
   bool _isEndOfPage = false;
   List<PublicationModel> _publications = [];
@@ -37,7 +37,7 @@ class CommunityDetailViewModel extends ChangeNotifier with SafeNotifier {
   Future<void> fetchPublications({required int communityId}) async {
     state._loading = true;
     state._publications = []; // reset
-    state._currentPage = Config.startPage; // reset
+    state._currentPage = EnvConfig.startPage; // reset
     state._isEndOfPage = false; // reset
     safeNotifyListeners();
 
@@ -104,7 +104,7 @@ class CommunityDetailViewModel extends ChangeNotifier with SafeNotifier {
   Future<void> fetchForums({required int communityId}) async {
     state._loading = true;
     state._forums = []; // reset
-    state._currentPage = Config.startPage; // reset
+    state._currentPage = EnvConfig.startPage; // reset
     state._isEndOfPage = false; // reset
     safeNotifyListeners();
 

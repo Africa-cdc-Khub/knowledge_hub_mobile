@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:go_router/go_router.dart';
 import 'package:khub_mobile/models/community_model.dart';
 import 'package:khub_mobile/themes/main_theme.dart';
@@ -6,6 +7,8 @@ import 'package:khub_mobile/ui/elements/dialogs/info_dialog.dart';
 import 'package:khub_mobile/ui/screens/auth/auth_view_model.dart';
 import 'package:khub_mobile/ui/screens/communities/communities_view_model.dart';
 import 'package:khub_mobile/ui/screens/communities/detail/community_detail_screen.dart';
+import 'package:khub_mobile/utils/helpers.dart';
+import 'package:khub_mobile/utils/l10n_extensions.dart';
 import 'package:khub_mobile/utils/navigation/route_names.dart';
 import 'package:provider/provider.dart';
 
@@ -45,12 +48,24 @@ class CommunityListItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 community.description.isNotEmpty
-                    ? Text(
-                        community.description,
-                        style: const TextStyle(fontSize: 14),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                    ? Html(
+                        data:
+                            Helpers.truncateHtmlText(community.description, 4),
+                        style: {
+                          "body": Style(
+                              maxLines: 5,
+                              fontSize: FontSize(14),
+                              textOverflow: TextOverflow.ellipsis,
+                              padding: HtmlPaddings.zero),
+                        },
                       )
+                    // Text(
+                    //     community.description,
+                    //     style: const TextStyle(fontSize: 14),
+                    //     maxLines: 2,
+                    //     overflow: TextOverflow.ellipsis,
+                    //   )
+
                     : const SizedBox.shrink(),
                 const SizedBox(height: 12),
 
@@ -153,7 +168,7 @@ class CommunityListItem extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                const Text('Processing...'),
+                Text(context.localized.pleaseWait),
               ],
             )
           : SizedBox(
@@ -172,16 +187,16 @@ class CommunityListItem extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return InfoDialog(
-            title: 'Confirm',
+            title: context.localized.confirm,
             icon: Icons.logout,
             titleBackgroundColor:
                 type == 2 ? MainTheme.appColors.red400 : Colors.orange,
-            content: _buildDescription(type),
-            confirmText: 'Confirm',
+            content: _buildDescription(context, type),
+            confirmText: context.localized.confirm,
             confirmTextColor: Colors.white,
             confirmBackgroundColor:
                 type == 2 ? MainTheme.appColors.red400 : Colors.orange,
-            cancelText: 'Cancel',
+            cancelText: context.localized.cancel,
             onConfirm: () {
               Navigator.of(context).pop(); // Close the dialog
               if (type == 1) {
@@ -214,11 +229,11 @@ class CommunityListItem extends StatelessWidget {
     }
   }
 
-  _buildDescription(int type) {
+  _buildDescription(BuildContext context, int type) {
     if (type == 1) {
-      return 'Are you sure you want to join this community?';
+      return context.localized.areYouSureYouWantToJoinThisCommunity;
     } else if (type == 2) {
-      return 'Are you sure you want to leave this community?';
+      return context.localized.areYouSureYouWantToLeaveThisCommunity;
     }
   }
 }

@@ -69,5 +69,22 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<!-- Google Sign-in -->
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.800355033239-nj3rplchapmhn9gi8f2q5vp2qtfq4bv7.apps.googleusercontent.com</string>
+			</array>
+		</dict>
+		<!-- Microsoft Auth -->
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>msauth.com.africacdc.knowhub</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

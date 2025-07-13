@@ -8,10 +8,10 @@ import 'package:khub_mobile/api/models/responses/EventResponse.dart';
 import 'package:khub_mobile/api/models/responses/ForumsResponse.dart';
 import 'package:khub_mobile/api/models/responses/NotificationsResponse.dart';
 import 'package:khub_mobile/api/models/responses/PublicationsResponse.dart';
+import 'package:khub_mobile/api/models/responses/SettingResponse.dart';
 import 'package:khub_mobile/api/models/responses/SubThemeResponseModel.dart';
 import 'package:khub_mobile/api/models/responses/ThemesResponse.dart';
 import 'package:khub_mobile/api/models/responses/UtilityResponse.dart';
-import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'api_client.g.dart';
@@ -87,6 +87,9 @@ abstract class APIClient {
 
   @GET('/api/lookup/sub_themes')
   Future<SubThemeResponse> getSubThemesByTheme(@Query("theme_id") int themeId);
+
+  @GET('/api/lookup/settings')
+  Future<SettingResponse> getAppSettings();
 
   @GET('/api/members')
   Future<CountryResponse> getMemberStates();

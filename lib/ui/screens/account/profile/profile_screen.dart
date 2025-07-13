@@ -48,7 +48,7 @@ class _CreateForumScreenState extends State<ProfileScreen> {
   String _selectedJob = '';
   OptionItemModel? _selectedCountryModel;
   // String _selectedCountry = '';
-  String _errors = '';
+  // String _errors = '';
   bool _loading = false;
 
   late ProfileViewModel viewModel;
@@ -119,7 +119,7 @@ class _CreateForumScreenState extends State<ProfileScreen> {
       final file = File(pickedFile.path);
 
       setState(() {
-        _errors = '';
+        // _errors = '';
         _profilePicture = file;
       });
       // LOGGER.d('Selected file: $pickedFile');

@@ -29,7 +29,8 @@ Map<String, IconData> iconClassToIcon = {
   'fa-ambulance': FontAwesomeIcons.ambulance,
   'fa fa-ambulance': FontAwesomeIcons.ambulance, // Hack fix
 
-  'fa-american-sign-language-interpreting': FontAwesomeIcons.americanSignLanguageInterpreting,
+  'fa-american-sign-language-interpreting':
+      FontAwesomeIcons.americanSignLanguageInterpreting,
   'fa-amilia': FontAwesomeIcons.amilia,
   'fa-anchor': FontAwesomeIcons.anchor,
   'fa-android': FontAwesomeIcons.android,
@@ -326,7 +327,8 @@ Map<String, IconData> iconClassToIcon = {
   'fa-creative-commons-remix': FontAwesomeIcons.creativeCommonsRemix,
   'fa-creative-commons-sa': FontAwesomeIcons.creativeCommonsSa,
   'fa-creative-commons-sampling': FontAwesomeIcons.creativeCommonsSampling,
-  'fa-creative-commons-sampling-plus': FontAwesomeIcons.creativeCommonsSamplingPlus,
+  'fa-creative-commons-sampling-plus':
+      FontAwesomeIcons.creativeCommonsSamplingPlus,
   'fa-creative-commons-share': FontAwesomeIcons.creativeCommonsShare,
   'fa-creative-commons-zero': FontAwesomeIcons.creativeCommonsZero,
   'fa-credit-card': FontAwesomeIcons.creditCard,
@@ -1463,5 +1465,5 @@ Map<String, IconData> iconClassToIcon = {
   'fa-yoast': FontAwesomeIcons.yoast,
   'fa-youtube': FontAwesomeIcons.youtube,
   'fa-youtube-square': FontAwesomeIcons.youtubeSquare,
-  'fa-zhihu': FontAwesomeIcons.zhihu,
+  'fa-zhihu': FontAwesomeIcons.zhihu
 };

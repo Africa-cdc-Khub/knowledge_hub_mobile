@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:khub_mobile/api/config/config.dart';
+import 'package:khub_mobile/api/config/env_config.dart';
 import 'package:khub_mobile/api/controllers/api_client.dart';
 import 'package:khub_mobile/api/models/data_state.dart';
 import 'package:khub_mobile/api/models/responses/UtilityResponse.dart';
@@ -34,8 +34,8 @@ class CommunitiesRepositoryImpl implements CommunitiesRepository {
   }) async {
     try {
       Map<String, dynamic> request = {
-        'page': page ?? Config.startPage,
-        'page_size': pageSize ?? Config.pageSize
+        'page': page ?? EnvConfig.startPage,
+        'page_size': pageSize ?? EnvConfig.pageSize
       };
       if (term != null) request['term'] = term;
 
