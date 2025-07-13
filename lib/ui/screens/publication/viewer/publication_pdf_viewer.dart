@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:khub_mobile/themes/main_theme.dart';
 import 'package:khub_mobile/ui/elements/components.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+// import 'package:pdfx/pdfx.dart';
 
 class PublicationPdfViewer extends StatefulWidget {
   final String pdfUrl;
@@ -14,10 +14,14 @@ class PublicationPdfViewer extends StatefulWidget {
 
 class _PublicationPdfViewerState extends State<PublicationPdfViewer> {
   String? localFilePath;
+  // late PdfControllerPinch _pdfController;
 
   @override
   void initState() {
     super.initState();
+    // _pdfController = PdfControllerPinch(
+    //   document: PdfDocument.openFile(widget.pdfUrl),
+    // );
   }
 
   @override
@@ -30,7 +34,7 @@ class _PublicationPdfViewerState extends State<PublicationPdfViewer> {
         centerTitle: true,
         title: appBarText(context, 'View Publication'),
       ),
-      body: SfPdfViewer.network(widget.pdfUrl),
+      body: Container() // SfPdfViewer.network(widget.pdfUrl),
     );
   }
 }

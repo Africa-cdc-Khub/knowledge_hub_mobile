@@ -346,7 +346,7 @@ class _PublicationDetailScreenState extends State<PublicationDetailScreen> {
       onTap: () {
         if (fileType != null && fileType.name.isNotEmpty) {
           model.publication.contains('.pdf')
-              ? context.pushNamed(publicationPdfViewer,
+              ? context.pushNamed(webViewer, // publicationPdfViewer,
                   extra: model.publication)
               : context.pushNamed(webViewer,
                   extra: WebViewerState(
